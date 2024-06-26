@@ -2,11 +2,13 @@
 class Utils:
 
     # Testing data for search
-    Test_Search_logsheetNo = 'DD30010924'
-    Test_Search_docketNo = 'JD300130143'
+    Search_logsheetNo = 'DD30010924'
+    pod_docketNo = ''
+    fail_docketNo = 'JD300129291'
+    delay_docketNo = 'JD300130143'
     
     # Testing data for assign
-    Test_Assign_logsheetNo = 'DD30010985'
+    Assign_logsheetNo = 'DD30010985'
     
     # Testing data for report
     Test_dateFrom = '9, Tuesday, January 9, 2024'
