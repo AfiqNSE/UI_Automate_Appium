@@ -2,7 +2,6 @@ import time
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
@@ -31,96 +30,6 @@ class ApproveRedeemPage:
 
 
 
-# Testing class for Search
-class StaffSearchPage:
-    new_dockets = []
-    
-    def __init__(self, driver: webdriver.Remote):
-        self.driver = driver
-
-    def nav_search(self):
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Search').click()
-
-    def button_option(self):
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Search logsheet/docket').click()
-
-    def scan_logsheet(self):
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Scan Logsheet Barcode').click()
-        self.driver.back()
-        
-    def insert_logsheet(self):
-        self.button_option()
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Insert Logsheet Number').click()
-        self.driver.find_element(AppiumBy.XPATH, '//android.widget.EditText').send_keys(Utils.Test_Search_logsheetNo)
-        self.driver.hide_keyboard()
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
-
-        #Wait & get the elements displayed
-        self.get_elements() 
-        
-    def scan_docket(self):
-        self.button_option()
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Scan Docket Barcode').click()
-        self.driver.back()
-
-    def insert_docket(self):
-        self.button_option()
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Insert Docket Number').click()
-        self.driver.find_element(AppiumBy.XPATH, '//android.widget.EditText').send_keys(Utils.Test_Search_docketNo)
-        self.driver.hide_keyboard()
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
-    
-    def est_TimeDate(self):
-        pass
-    
-    
-    #TODO: POD docket
-    def nav_pod(self):
-        if self.new_dockets != []:
-            pass
-        else:
-            print("No new docket found")
-    
-    #TODO: fail docket   
-    def nav_fail(self):
-        if self.new_dockets != []:
-            pass
-        else:
-            print("No new docket found")
-    
-    #TODO: delay docket 
-    def nav_delay(self):
-        self.get_elements()
-        if self.new_dockets != []:
-            print(len(self.new_dockets))
-            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, self.new_dockets[0]).click()
-            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Delay').click()
-        else:
-            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Delay').click()
-            pass
-        
-    #NOTE: Get latest element that been display at the UI
-    def get_elements(self):
-        try:
-            #Wait for the element to shows up
-            WebDriverWait(self.driver,20).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.view.View[starts-with(@content-desc, "JD3")]')))
-
-            #Get the elements
-            all_items = self.driver.find_elements(AppiumBy.XPATH, '//android.view.View[starts-with(@content-desc, "JD3")]')
-            
-            for item in all_items:
-                if item.is_displayed():
-                    docket = item.get_attribute("content-desc")
-                    if "NEW" in docket:
-                        self.new_dockets.append(docket)
-
-        except TimeoutException:
-            print("Timeout: Elements did not appear within the expected time.")
-            pass   
-            
-        
-
-
 # Testing part for Assign Point
 class AssignPointPage:
     assign_dockets = []
@@ -138,7 +47,7 @@ class AssignPointPage:
     def insert_logsheet(self):
         self.nav_assignPoint()
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Insert Logsheet Number').click()
-        self.driver.find_element(AppiumBy.XPATH, '//android.widget.EditText').send_keys(Utils.Test_Assign_logsheetNo)
+        self.driver.find_element(AppiumBy.XPATH, '//android.widget.EditText').send_keys(Utils.Assign_logsheetNo)
         self.driver.hide_keyboard()
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
 
@@ -167,7 +76,7 @@ class AssignPointPage:
             self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Assigned').click()
         else:
             print("No docket to be assign")
-            pass
+            
 
     def multiple_assign(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Not Assign').click()
@@ -193,7 +102,7 @@ class AssignPointPage:
 
         else:
             print("No docket to be assign")
-            pass
+            
         
     #NOTE: Get latest element that been display at the UI
     def get_elements(self):
