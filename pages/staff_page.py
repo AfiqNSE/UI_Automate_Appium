@@ -48,10 +48,16 @@ class SearchPage():
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Insert Logsheet Number').click()
         self.driver.find_element(AppiumBy.XPATH, '//android.widget.EditText').send_keys(logsheetNo)
         self.driver.hide_keyboard()
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
         
-        #Wait & get the elements displayed
-        Utils.get_DisplayedDocket
+        if logsheetNo != '':
+            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
+            
+            #Wait & get the elements displayed
+            Utils.get_DisplayedDocket
+        else:
+            print('\nNo logsheet no provided')
+            self.driver.back()
+            self.driver.quit()
         
     def scan_docket(self):
         self.button_option()
@@ -102,8 +108,6 @@ class AssignPointPage:
         
         if self.assign_dockets != []:
             self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, self.assign_dockets[0]).click()
-            
-            #TODO: Check for preview button
 
             # Assign docket
             self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
