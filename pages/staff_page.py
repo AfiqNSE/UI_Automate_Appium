@@ -4,9 +4,7 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-
-from utils.main_utils import Utils
-
+from utils.main_utils import Constant, Utils
 
 # Testing class for Longhaul Acceptance
 class LonghaulAcceptancePage:
@@ -15,7 +13,7 @@ class LonghaulAcceptancePage:
 
     def nav_longhaul(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Longhaul\nAcceptance').click()
-        self.driver.find_element(AppiumBy.XPATH, '//android.widget.Button[@resource-id="com.nse.project.nse_driver_flutter_app:id/btnBarcodeCaptureCancel"]').click()
+        Utils.cancelButton()
 
 
 
@@ -26,8 +24,47 @@ class ApproveRedeemPage:
 
     def nav_redeem(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Approve\nRedeem').click()
-        self.driver.find_element(AppiumBy.XPATH, '//android.widget.Button[@resource-id="com.nse.project.nse_driver_flutter_app:id/btnBarcodeCaptureCancel"]').click()
+        Utils.cancelButton()
 
+
+
+# Testing class for Search
+class SearchPage():
+    def __init__(self, driver: webdriver.Remote):
+        self.driver = driver
+
+    def nav_search(self):
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Search').click()
+
+    def button_option(self):
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Search logsheet/docket').click()
+
+    def scan_logsheet(self):
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Scan Logsheet Barcode').click()
+        self.driver.back()
+        
+    def insert_logsheet(self, logsheetNo):
+        self.button_option()
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Insert Logsheet Number').click()
+        self.driver.find_element(AppiumBy.XPATH, '//android.widget.EditText').send_keys(logsheetNo)
+        self.driver.hide_keyboard()
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
+        
+        #Wait & get the elements displayed
+        Utils.get_DisplayedDocket
+        
+    def scan_docket(self):
+        self.button_option()
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Scan Docket Barcode').click()
+        self.driver.back()
+
+    def insert_docket(self, docketNo):
+        self.button_option()
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Insert Docket Number').click()
+        self.driver.find_element(AppiumBy.XPATH, '//android.widget.EditText').send_keys(docketNo)
+        self.driver.hide_keyboard()
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
+                     
 
 
 # Testing part for Assign Point
@@ -47,7 +84,7 @@ class AssignPointPage:
     def insert_logsheet(self):
         self.nav_assignPoint()
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Insert Logsheet Number').click()
-        self.driver.find_element(AppiumBy.XPATH, '//android.widget.EditText').send_keys(Utils.Assign_logsheetNo)
+        self.driver.find_element(AppiumBy.XPATH, '//android.widget.EditText').send_keys(Constant.ASSIGN_LOGSHEETNO)
         self.driver.hide_keyboard()
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
 
@@ -108,7 +145,7 @@ class AssignPointPage:
     def get_elements(self):
         #Wait for the element to shows up & store the latest
         try:
-            WebDriverWait(self.driver,20).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.view.View[starts-with(@content-desc, "JD3")]')))
+            WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.view.View[starts-with(@content-desc, "JD3")]')))
 
             all_items = self.driver.find_elements(AppiumBy.XPATH, '//android.view.View[starts-with(@content-desc, "JD3")]')
             
@@ -304,7 +341,7 @@ class GeneralReportPage:
         for _ in range(5):
             self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().className("android.widget.Button").instance(1)').click()
 
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, Utils.Test_dateFrom).click()
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, Constant.REPORT_DATEFROM).click()
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'OK').click()
 
         # Pick Date To
@@ -313,7 +350,7 @@ class GeneralReportPage:
         for _ in range(2):
             self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().className("android.widget.Button").instance(1)').click()
 
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, Utils.Test_dateTo).click()
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, Constant.REPORT_DATETO).click()
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'OK').click()
 
         # Click show truck no
