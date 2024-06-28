@@ -3,7 +3,7 @@ from appium.webdriver.common.appiumby import AppiumBy
 
 
 # Testing class for Language
-class StaffLanguagePage:
+class LanguagePage:
     def __init__(self, driver: webdriver.Remote):
         self.driver = driver
     
