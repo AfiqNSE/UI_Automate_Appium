@@ -19,7 +19,7 @@ class TestReport(unittest.TestCase):
         self.iod_page.iod_filter_truckNo()
         self.iod_page.iod_filter_supplierName()
         self.iod_page.iod_filter_lateDeliveryFor()
-        # self.iod_page.filter_Zone() Fix swipe
+        self.iod_page.iod_filter_zone()
         self.iod_page.iod_lateDays_orderBy()
 
     def test_02_general_report(self):
