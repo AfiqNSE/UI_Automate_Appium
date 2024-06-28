@@ -10,7 +10,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 
 #NOTE: Set the testing data
-class Constant():
+class Constant:
     # Testing data for login
     USERNAME = 'Afiq'
     PASSWORD = '12345'
@@ -32,11 +32,14 @@ class Constant():
 
 
 #NOTE: Components that been used for Staff & Driver
-class Utils():
+class Utils:
     def __init__(self, driver: webdriver.Remote):
         self.driver = driver
         
     new_dockets = []
+    all_details  = []
+    sign_accessibilityID = ''
+    est_accessibilityID = ''
     
     #NOTE: This code is to use cancel button at UI
     def cancelButton(self):
@@ -46,26 +49,34 @@ class Utils():
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Management Dashboard')))
         except TimeoutException:
-            raise ValueError("Timeout: Elements did not appear within the expected time.")
+            raise ValueError("Timeout: Element (Management Dashboard) did not appear within the expected time.")
     
-    #TODO: estDateTime docket
-    def nav_estDateTime(self, dockets):
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, dockets).click()
-        try:
-            WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.view.View[starts-with(@content-desc, "Estimation")]'))).click()
-
-        except TimeoutException:
-            raise ValueError("Timeout: Elements did not appear within the expected time.") 
-    
-    #TODO: Fix element not located
+  
+    def nav_estDateTime(self):
+        #TODO: set single estDateTime docket
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, self.new_dockets[0]).click()
+        self.get_DisplayedDetails()
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, self.est_accessibilityID).click()
+        time.sleep(1)
+        
+        for _ in range(2):
+            self.driver.back()
+        
+        #TODO: Set all est date time
+        self.nav_selectMode(self.new_dockets)
+        self.select_all()
+        self.driver.find_element(AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]').click()
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, '29, Saturday, June 29, 2024').click()
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'OK').click()
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Estimate arrival time\nSelect time').click()
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'PM').click()
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
+        
     def nav_viewSignature(self):
-        try:
-            WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.Button[@content-desc="Driver Signature Tap to view signature"]'))).click()
-        
-        except TimeoutException:
-            print("Timeout: Elements did not appear within the expected time.")
-        
-        self.driver.back()
+        self.get_DisplayedDetails()
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, self.sign_accessibilityID).click()
+        time.sleep(1)
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Close').click()
     
     def nav_docketPreview(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Preview').click()
@@ -74,10 +85,13 @@ class Utils():
             WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.view.View[starts-with(@content-desc, "JD3")]')))
            
         except TimeoutException:
-            print("Timeout: Elements did not appear within the expected time.")
+            print("Timeout: Elements (Docket Image) did not appear within the expected time.")
         
         time.sleep(2)
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Back').click()
+        
+        #Go back to homepage
+        for _ in range(3):
+            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Back').click()
     
     def nav_pod(self):
         #Click POD option
@@ -95,7 +109,7 @@ class Utils():
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Confirm Upload'))).click()
 
         except TimeoutException:
-            raise ValueError("Timeout: Elements did not appear within the expected time.")
+            raise ValueError("Timeout: Element (Confirm Upload) did not appear within the expected time.")
         
         #Wait for the process to return back to homepage
         self.homePagePresence()
@@ -110,13 +124,13 @@ class Utils():
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.LinearLayout[@content-desc="IMG_20240626_034459.jpg, 146 kB, Jun 26"]'))).click()
  
         except TimeoutException:
-            raise ValueError("Timeout: Elements did not appear within the expected time.")
+            raise ValueError("Timeout: Element (Image) did not appear within the expected time.")
             
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Confirm Upload'))).click()
  
         except TimeoutException:
-            raise ValueError("Timeout: Elements did not appear within the expected time.")
+            raise ValueError("Timeout: Element (Confirm Upload) did not appear within the expected time.")
         
         #Wait for the process to return back to homepage
         self.homePagePresence()
@@ -151,7 +165,7 @@ class Utils():
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Confirm Upload'))).click()
 
         except TimeoutException:
-            raise ValueError("Timeout: Elements did not appear within the expected time.")
+            raise ValueError("Timeout: Element (Confirm Upload) did not appear within the expected time.")
         
         #Wait for the process to return back to homepage
         self.homePagePresence()
@@ -167,7 +181,7 @@ class Utils():
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Store Closed'))).click()
         
         except TimeoutException:
-            raise ValueError("Timeout: Elements did not appear within the expected time.")
+            raise ValueError("Timeout: Element (Store Closed) did not appear within the expected time.")
             
         self.fail_attachment()
         self.remove_attachment()
@@ -191,7 +205,7 @@ class Utils():
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.LinearLayout[@content-desc="IMG_20240626_034459.jpg, 146 kB, Jun 26"]'))).click()
                 
         except TimeoutException:
-            raise ValueError("Timeout: Elements did not appear within the expected time.")
+            raise ValueError("Timeout: Element (Image) did not appear within the expected time.")
         
         #Upload attachment
         for _ in range(2):
@@ -199,7 +213,7 @@ class Utils():
                 WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.XPATH, '(//android.widget.Button[@content-desc="Take Photo"])[2]'))).click()
                 
             except TimeoutException:
-                 raise ValueError("Timeout: Elements did not appear within the expected time.")
+                 raise ValueError("Timeout: Element (Take Photo) did not appear within the expected time.")
             
             self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Upload Photo').click()
             
@@ -207,7 +221,7 @@ class Utils():
                 WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.LinearLayout[@content-desc="IMG_20240626_034459.jpg, 146 kB, Jun 26"]'))).click()
                 
             except TimeoutException:
-                raise ValueError("Timeout: Elements did not appear within the expected time.")
+                raise ValueError("Timeout: Element (Image) did not appear within the expected time.")
     
     #NOTE: Navigation to do DELAY
     def nav_delay(self):
@@ -220,7 +234,7 @@ class Utils():
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Truck breakdown'))).click()
         
         except TimeoutException:
-            raise ValueError("Timeout: Elements did not appear within the expected time.")
+            raise ValueError("Timeout: Element (Truck breakdown) did not appear within the expected time.")
             
         self.delay_attachment()
         self.remove_attachment()
@@ -242,7 +256,7 @@ class Utils():
                 WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Take Photo'))).click()
 
             except TimeoutException:
-                 raise ValueError("Timeout: Elements did not appear within the expected time.")
+                 raise ValueError("Timeout: Element (Take Photo) did not appear within the expected time.")
             
             self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Upload Photo').click()
             
@@ -250,24 +264,43 @@ class Utils():
                 WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.LinearLayout[@content-desc="IMG_20240626_034459.jpg, 146 kB, Jun 26"]'))).click()
                 
             except TimeoutException:
-                raise ValueError("Timeout: Elements did not appear within the expected time.")
+                raise ValueError("Timeout: Element (Image) did not appear within the expected time.")
     
     def remove_logsheetPhoto(self):
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.ImageView'))).click()
 
         except TimeoutException:
-            raise ValueError("Timeout: Elements did not appear within the expected time.")
+            raise ValueError("Timeout: Element (Image) did not appear within the expected time.")
             
     def remove_attachment(self):
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.ImageView[2]'))).click()
 
         except TimeoutException:
-            raise ValueError("Timeout: Elements did not appear within the expected time.")
+            raise ValueError("Timeout: Element (Image) did not appear within the expected time.")
+       
+    #NOTE: Select All & Deselect All button
+    def nav_selectMode(self, dockets):
+        element = self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, dockets[0])
+        self.driver.execute_script('mobile: longClickGesture', {'elementId': element.id})
+        
+    def select_all(self):
+        #Select All
+        self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().className("android.widget.Button").instance(1)').click()
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Select All').click()
+
+    def deselect_all(self):          
+        #Deselect All
+        self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().className("android.widget.Button").instance(1)').click()
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Deselect All').click()
+    
+    def exit_selectMode(self):
+         #Exit Select Mode
+        self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().className("android.widget.Button").instance(0)').click()
             
     #NOTE: Get latest element that been display at the UI
-    def get_DisplayedDocket(self):
+    def get_NewDockets(self):
         try:
             #Wait for the element to shows up
             WebDriverWait(self.driver,20).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.view.View[starts-with(@content-desc, "JD3")]')))
@@ -280,6 +313,26 @@ class Utils():
                     docket = item.get_attribute("content-desc")
                     if "NEW" in docket:
                         self.new_dockets.append(docket)
-
+            
         except TimeoutException:
-            raise ValueError("Timeout: Elements did not appear within the expected time.")
+            raise ValueError("Timeout: Elements (dockets) did not appear within the expected time.")
+    
+    #NOTE: Get details elements that been display at the UI
+    def get_DisplayedDetails(self):
+        try:
+            WebDriverWait(self.driver,20).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Docket Details')))
+
+            # Find all direct child views within the ScrollView
+            all_items = self.driver.find_elements(AppiumBy.XPATH, './/android.widget.Button')
+            
+            for item in all_items:
+                if item.is_displayed():
+                    detail = item.get_attribute("content-desc")
+                    self.all_details.append(detail)
+                    if "Signature" in detail:
+                        self.sign_accessibilityID = detail
+                    if "Estimation" in detail:
+                        self.est_accessibilityID = detail
+                    
+        except TimeoutException:
+            raise ValueError("Timeout: Element (Docket Details) did not appear within the expected time.")
