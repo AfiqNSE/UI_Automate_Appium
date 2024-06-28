@@ -56,8 +56,9 @@ class SearchPage():
             Utils.get_DisplayedDocket
         else:
             print('\nNo logsheet no provided')
-            self.driver.back()
             self.driver.quit()
+            
+        self.driver.back()
         
     def scan_docket(self):
         self.button_option()
