@@ -4,7 +4,7 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-from utils.main_utils import Constant, Utils
+from components.main_components import Constant, Components
 from selenium.webdriver.common.action_chains import ActionChains
 
 
@@ -16,7 +16,7 @@ class LonghaulAcceptancePage:
 
     def nav_longhaul(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Longhaul\nAcceptance').click()
-        Utils.cancelButton()
+        Components.cancelButton()
 
 
 
@@ -27,7 +27,7 @@ class ApproveRedeemPage:
 
     def nav_redeem(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Approve\nRedeem').click()
-        Utils.cancelButton()
+        Components.cancelButton()
 
 
 
@@ -38,6 +38,9 @@ class SearchPage:
 
     def nav_search(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Search').click()
+        
+    def check_history(self):
+        pass
 
     def button_option(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Search logsheet/docket').click()
@@ -56,10 +59,10 @@ class SearchPage:
             self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
             
             #Wait & get the elements displayed
-            Utils(self.driver).get_NewDockets()
+            Components(self.driver).get_NewDockets()
 
-            # Utils().nav_estDateTime
-            Utils(self.driver).nav_estDateTime()
+            # Do sst date time
+            Components(self.driver).nav_estDateTime()
             
         else:
             raise ValueError('\nNo logsheet number provided')
@@ -120,10 +123,10 @@ class AssignPointPage:
     def select_mode(self):
         #Check select/deselect all button
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Not Assign').click()
-        Utils(self.driver).nav_selectMode(self.assign_dockets)
-        Utils(self.driver).select_all()
-        Utils(self.driver).deselect_all()
-        Utils(self.driver).exit_selectMode()
+        Components(self.driver).nav_selectMode(self.assign_dockets)
+        Components(self.driver).select_all()
+        Components(self.driver).deselect_all()
+        Components(self.driver).exit_selectMode()
         
         #TODO: all assign
 
@@ -196,9 +199,14 @@ class StaffAnalyticsPage:
         self.driver = driver
 
     def nav_anlytics(self):
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Analytics').click()
-        self.driver.back()
+        try:
+            WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Analytics'))).click()
+            time.sleep(1)
 
+        except TimeoutException:
+            raise ValueError("Timeout: Element (Analytics) did not appear within the expected time.")
+
+        self.driver.back()
 
 
 # Testing part for IOD Report
@@ -207,7 +215,11 @@ class IODReportPage:
         self.driver = driver
     
     def nav_report(self):
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Report').click()
+        try:
+            WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Report'))).click()
+            
+        except TimeoutException:
+            raise ValueError("Timeout: Element (Report) did not appear within the expected time.")
 
     #NOTE:Check if search form visible or not
     def check_form(self):
@@ -366,28 +378,37 @@ class GeneralReportPage:
 
     def general_form_data(self):
         # Insert Customer name
-        customerName = self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().className("android.widget.EditText").instance(1)')
-        customerName.click()
-        customerName.send_keys('DAIKIN')
-        self.driver.hide_keyboard()
+        try:
+            customerName = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().className("android.widget.EditText").instance(1)')))
+            customerName.click()
+            customerName.send_keys('DAIKIN')
+            self.driver.hide_keyboard()
 
+        except TimeoutException:
+            raise ValueError("Timeout: Elements did not appear.")
+  
         # Pick Date From
-        self.driver.find_element(AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View[1]').click()
+        try:
+            WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View[1]'))).click()
+            for _ in range(5):
+                self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().className("android.widget.Button").instance(1)').click()
+
+                self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, Constant.REPORT_DATEFROM).click()
+                self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'OK').click()
+        except TimeoutException:
+            raise ValueError("Timeout: Elements did not appear.")
         
-        for _ in range(5):
-            self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().className("android.widget.Button").instance(1)').click()
-
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, Constant.REPORT_DATEFROM).click()
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'OK').click()
-
         # Pick Date To
-        self.driver.find_element(AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View[2]').click()
+        try:
+            WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View[2]'))).click()
+            for _ in range(2):
+                self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().className("android.widget.Button").instance(1)').click()
 
-        for _ in range(2):
-            self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().className("android.widget.Button").instance(1)').click()
+                self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, Constant.REPORT_DATETO).click()
+                self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'OK').click()
 
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, Constant.REPORT_DATETO).click()
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'OK').click()
+        except TimeoutException:
+            raise ValueError("Timeout: Elements did not appear.")
 
         # Click show truck no
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Show Truck No').click()
