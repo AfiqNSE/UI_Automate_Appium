@@ -57,7 +57,7 @@ class Components:
     
     
     def nav_estDateTime(self):
-        #TODO: set single estDateTime docket
+        #NOTE: set single estDateTime docket
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, self.new_dockets[0]).click()
         self.get_DisplayedDetails()
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, self.est_accessibilityID).click()
