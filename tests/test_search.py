@@ -67,6 +67,7 @@ class TestSearch(unittest.TestCase):
         
     def test_07_additional(self):
         self.search_page.nav_search()
+        self.search_page.check_search_history()
         
         if Constant.POD_DOCKETNO_SIGNATURE == '':
             raise ValueError("No docket number provided")
