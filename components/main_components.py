@@ -32,7 +32,7 @@ class Constant:
 
 
 #NOTE: Components that been used for Staff & Driver
-class Utils:
+class Components:
     def __init__(self, driver: webdriver.Remote):
         self.driver = driver
         
@@ -45,13 +45,17 @@ class Utils:
     def cancelButton(self):
         self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.Button[@resource-id="com.nse.project.nse_driver_flutter_app:id/btnBarcodeCaptureCancel"]').click()
     
+    #NOTE: Check the availability of the home srceen
     def homePagePresence(self):
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Management Dashboard')))
         except TimeoutException:
             raise ValueError("Timeout: Element (Management Dashboard) did not appear within the expected time.")
     
-  
+    def search_history(self):
+        pass
+    
+    
     def nav_estDateTime(self):
         #TODO: set single estDateTime docket
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, self.new_dockets[0]).click()
@@ -336,3 +340,17 @@ class Utils:
                     
         except TimeoutException:
             raise ValueError("Timeout: Element (Docket Details) did not appear within the expected time.")
+        
+    #Scroll to see analytics for small screen phone
+    def scroll_analytics(self):
+        signature_element = self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Assign\nPoints')
+        
+        actions = ActionChains(self.driver)
+        x = 800
+        y = -1000
+
+        #Tap the signature pad and clear it
+        actions.move_to_element(signature_element)
+        actions.click_and_hold()
+        actions.move_by_offset(xoffset=x, yoffset=y)
+        actions.release().perform()
