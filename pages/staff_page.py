@@ -39,9 +39,6 @@ class SearchPage:
     def nav_search(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Search').click()
         
-    def check_history(self):
-        pass
-
     def button_option(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Search logsheet/docket').click()
 
@@ -86,10 +83,33 @@ class SearchPage:
             self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
         else:
             raise ValueError('\nNo docket number provided')    
-        
+
+    #TODO: Fix search history not detecting the "content-desc" attr
+    def check_search_history(self):
+        try:
+            WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View[2]')))
+
+            all_items = self.driver.find_elements(AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View[2]/android.view.View/android.view.View')
+            
+            history_list = []
+            for item in all_items:
+                if item.is_displayed():
+                    history = item.get_attribute("content-desc")
+                    print(history)
+                    history_list.append(history)
+            
+            print(history_list)
+                    
+            if(len(history_list) != 0):
+                self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, Constant.POD_DOCKETNO_SIGNATURE).click()
+                time.sleep(1)
+                self.driver.back()
+            
+        except TimeoutException:
+                print('Timeout: Elements did not appear within the expected time.')
+            
+
                      
-
-
 # Testing part for Assign Point
 class AssignPointPage:
     assign_dockets = []
@@ -128,8 +148,6 @@ class AssignPointPage:
         Components(self.driver).deselect_all()
         Components(self.driver).exit_selectMode()
         
-        #TODO: all assign
-
     def single_assign(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Not Assign').click()
         
@@ -304,7 +322,7 @@ class IODReportPage:
         time.sleep(2)
         
         #NOTE: Reset filter
-        #TODO: Fix reset filter at FE
+        #TODO: Fix reset filter at FE for late delivery
         # self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().className("android.widget.Button").instance(5)').click()
 
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Less than 14 Days').click()
@@ -352,10 +370,7 @@ class IODReportPage:
         self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().className("android.view.View").instance(5)').click()
         time.sleep(2)
         
-        #TODO: Fix Reset filter
-        # self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Zone').click()
-        # self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Show All').click()
-        # self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().className("android.view.View").instance(5)').click()
+        #TODO: Fix Reset filter at FE at FE for zone
         
     def iod_lateDays_orderBy(self):
         #NOTE: Multiple taps to show desc & asc order
