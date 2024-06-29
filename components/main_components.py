@@ -61,17 +61,50 @@ class Components:
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, self.new_dockets[0]).click()
         self.get_DisplayedDetails()
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, self.est_accessibilityID).click()
-        time.sleep(1)
         
-        for _ in range(2):
-            self.driver.back()
+        actions = ActionChains(self.driver)
+
+        #Set Date
+        actions.w3c_actions.pointer_action.move_to_location(x=500, y=1050)
+        actions.w3c_actions.pointer_action.pointer_down()
+        actions.w3c_actions.pointer_action.pointer_up()
+        actions.perform()
         
-        #TODO: Set all est date time
+        try:
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, '30, Sunday, June 30, 2024'))).click()
+            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'OK').click()
+            
+        except TimeoutException:
+            raise ValueError("Timeout: Element (Date) did not appear within the expected time.")
+
+        
+        #Set Time
+        actions.w3c_actions.pointer_action.move_to_location(x=500, y=1240)
+        actions.w3c_actions.pointer_action.pointer_down()
+        actions.w3c_actions.pointer_action.pointer_up()
+        actions.perform()
+        
+        try:
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'AM'))).click()    
+                    
+        except TimeoutException:
+            raise ValueError("Timeout: Element (Date) did not appear within the expected time.")
+        
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
+        self.driver.back()
+        
+        # #NOTE: Set all est date time
         self.nav_selectMode(self.new_dockets)
         self.select_all()
         self.driver.find_element(AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]').click()
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, '29, Saturday, June 29, 2024').click()
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'OK').click()
+        
+        try:
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, '30, Sunday, June 30, 2024'))).click()
+            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'OK').click()
+            
+        except TimeoutException:
+            raise ValueError("Timeout: Element (Date) did not appear within the expected time.")
+        
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Estimate arrival time\nSelect time').click()
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'PM').click()
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
