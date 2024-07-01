@@ -17,7 +17,7 @@ class ApproveRedeemPage:
 
     def nav_redeem(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Approve\nRedeem').click()
-        Components.cancelButton()
+        Components.cancelButton(self)
 
 
 
@@ -44,10 +44,10 @@ class SearchPage:
         self.driver.hide_keyboard()
         
         if logsheetNo != '':
-            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
-            
+            Components.submitButton()
+                        
             #Wait & get the elements displayed
-            Components(self.driver).get_NewDockets()
+            Components(self.driver).get_dockets()
 
             # Do sst date time
             Components(self.driver).nav_estDateTime()
@@ -71,7 +71,7 @@ class SearchPage:
         self.driver.hide_keyboard()
         
         if docketNo != "":
-            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
+            Components.submitButton()
         else:
             raise ValueError('\nNo docket number provided')    
 
@@ -121,7 +121,7 @@ class AssignPointPage:
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Insert Logsheet Number').click()
         self.driver.find_element(AppiumBy.XPATH, '//android.widget.EditText').send_keys(Constant.ASSIGN_LOGSHEETNO)
         self.driver.hide_keyboard()
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
+        Components.submitButton()
 
     #NOTE: Check the filter functionality
     def check_filter(self):
@@ -147,10 +147,10 @@ class AssignPointPage:
             self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, self.assign_dockets[0]).click()
 
             # Assign docket
-            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
+            Components.submitButton()
             self.driver.find_element(AppiumBy.XPATH, '//android.widget.EditText').send_keys('Testing by Appium')
             self.driver.hide_keyboard()
-            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
+            Components.submitButton()
             self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Assigned').click()
         else:
             raise ValueError("No docket to be assign")
@@ -173,8 +173,7 @@ class AssignPointPage:
             el.send_keys('Multiple Testing by Appium')
             time.sleep(1)
             self.driver.hide_keyboard()
-
-            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
+            Components.submitButton()
             self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Assigned').click()
 
         else:
@@ -201,37 +200,6 @@ class AssignPointPage:
             raise ValueError("Timeout: Elements did not appear within the expected time.")
 
 
-
-#NOTE: KIV since v2.5 got issue
-# Testing part for Analytics
-class StaffAnalyticsPage:
-    #defining constructor  
-    def __init__(self, driver: webdriver.Remote):
-        self.driver = driver
-        
-    #Scroll to see analytics for small screen phone
-    def scroll_analytics(self):
-        signature_element = self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Assign\nPoints')
-        
-        actions = ActionChains(self.driver)
-        x = 800
-        y = -1000
-
-        #Tap the signature pad and clear it
-        actions.move_to_element(signature_element)
-        actions.click_and_hold()
-        actions.move_by_offset(xoffset=x, yoffset=y)
-        actions.release().perform()
-
-    def nav_anlytics(self):
-        try:
-            WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Analytics'))).click()
-            time.sleep(1)
-
-        except TimeoutException:
-            raise ValueError("Timeout: Element (Analytics) did not appear within the expected time.")
-
-        self.driver.back()
 
 
 # Testing part for IOD Report
