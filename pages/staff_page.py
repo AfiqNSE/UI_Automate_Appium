@@ -9,18 +9,6 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 
 
-# Testing class for Longhaul Acceptance
-class LonghaulAcceptancePage:
-    #defining constructor  
-    def __init__(self, driver: webdriver.Remote):
-        self.driver = driver
-
-    def nav_longhaul(self):
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Longhaul\nAcceptance').click()
-        Components.cancelButton()
-
-
-
 # Testing class for Approve Redeem
 class ApproveRedeemPage:
     #defining constructor  
