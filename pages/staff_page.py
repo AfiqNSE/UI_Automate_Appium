@@ -4,13 +4,14 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-from components.main_components import Constant, Components
+from components.main_component import Constant, Components
 from selenium.webdriver.common.action_chains import ActionChains
 
 
 
 # Testing class for Longhaul Acceptance
 class LonghaulAcceptancePage:
+    #defining constructor  
     def __init__(self, driver: webdriver.Remote):
         self.driver = driver
 
@@ -22,6 +23,7 @@ class LonghaulAcceptancePage:
 
 # Testing class for Approve Redeem
 class ApproveRedeemPage:
+    #defining constructor  
     def __init__(self, driver: webdriver.Remote):
         self.driver = driver
 
@@ -33,6 +35,7 @@ class ApproveRedeemPage:
 
 # Testing class for Search
 class SearchPage:
+    #defining constructor  
     def __init__(self, driver: webdriver.Remote):
         self.driver = driver
 
@@ -114,6 +117,7 @@ class SearchPage:
 class AssignPointPage:
     assign_dockets = []
 
+    #defining constructor  
     def __init__(self, driver: webdriver.Remote):
         self.driver = driver
 
@@ -213,8 +217,23 @@ class AssignPointPage:
 #NOTE: KIV since v2.5 got issue
 # Testing part for Analytics
 class StaffAnalyticsPage:
+    #defining constructor  
     def __init__(self, driver: webdriver.Remote):
         self.driver = driver
+        
+    #Scroll to see analytics for small screen phone
+    def scroll_analytics(self):
+        signature_element = self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Assign\nPoints')
+        
+        actions = ActionChains(self.driver)
+        x = 800
+        y = -1000
+
+        #Tap the signature pad and clear it
+        actions.move_to_element(signature_element)
+        actions.click_and_hold()
+        actions.move_by_offset(xoffset=x, yoffset=y)
+        actions.release().perform()
 
     def nav_anlytics(self):
         try:
@@ -229,6 +248,7 @@ class StaffAnalyticsPage:
 
 # Testing part for IOD Report
 class IODReportPage:
+    #defining constructor  
     def __init__(self, driver: webdriver.Remote):
         self.driver = driver
     
@@ -384,6 +404,7 @@ class IODReportPage:
 
 # Testing part for General Report
 class GeneralReportPage:
+    #defining constructor  
     def __init__(self, driver: webdriver.Remote):
         self.driver = driver
 
