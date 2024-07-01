@@ -4,7 +4,7 @@ from appium import webdriver
 
 from config import Config
 from pages.staff_page import SearchPage
-from components.main_components import Constant, Components
+from components.main_component import Constant, Components
 
 class TestStaffSearch(unittest.TestCase):
     def setUp(self):

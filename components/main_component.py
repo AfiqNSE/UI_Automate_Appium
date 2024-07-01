@@ -12,7 +12,8 @@ from selenium.webdriver.common.action_chains import ActionChains
 #NOTE: Set the testing data
 class Constant:
     # Testing data for login
-    USERNAME = 'Afiq'
+    STAFF_USERNAME = 'Afiq'
+    DRIVER_USERNAME = '011-25039688'
     PASSWORD = '12345'
         
     # Testing data for search
@@ -29,10 +30,10 @@ class Constant:
     # Testing data for report
     REPORT_DATEFROM = '9, Tuesday, January 9, 2024'
     REPORT_DATETO = '30, Tuesday, April 30, 2024'
+    
 
-
-#NOTE: Components that been used for Staff & Driver
 class Components:
+    #defining constructor  
     def __init__(self, driver: webdriver.Remote):
         self.driver = driver
         
@@ -45,16 +46,15 @@ class Components:
     def cancelButton(self):
         self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.Button[@resource-id="com.nse.project.nse_driver_flutter_app:id/btnBarcodeCaptureCancel"]').click()
     
+    def nav_sideBar(self):
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Open navigation menu').click()
+    
     #NOTE: Check the availability of the home srceen
     def homePagePresence(self):
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Management Dashboard')))
         except TimeoutException:
             raise ValueError("Timeout: Element (Management Dashboard) did not appear within the expected time.")
-    
-    def search_history(self):
-        pass
-    
     
     def nav_estDateTime(self):
         #NOTE: set single estDateTime docket
@@ -374,16 +374,3 @@ class Components:
         except TimeoutException:
             raise ValueError("Timeout: Element (Docket Details) did not appear within the expected time.")
         
-    #Scroll to see analytics for small screen phone
-    def scroll_analytics(self):
-        signature_element = self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Assign\nPoints')
-        
-        actions = ActionChains(self.driver)
-        x = 800
-        y = -1000
-
-        #Tap the signature pad and clear it
-        actions.move_to_element(signature_element)
-        actions.click_and_hold()
-        actions.move_by_offset(xoffset=x, yoffset=y)
-        actions.release().perform()
