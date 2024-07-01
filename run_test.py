@@ -1,14 +1,14 @@
 import unittest
-from components.main_component import Constant
 from config import Config
-from tests.staff_test.test_staff_login import TestStaffLogin
-from tests.staff_test.test_staff_language import TestStaffLanguage
-from tests.staff_test.test_staff_longhaul import TestStaffLonghaul
-from tests.staff_test.test_staff_approve import TestStaffApprove
-from tests.staff_test.test_staff_search import TestStaffSearch
-from tests.staff_test.test_staff_assign import TestStaffAssign
-from tests.staff_test.test_staff_analytics import TestStaffAnalytics
-from tests.staff_test.test_staff_report import TestStaffReport
+from tests.test_analytics import TestStaffAnalytics
+from tests.test_approve import TestStaffApprove
+from tests.test_assign import TestStaffAssign
+from tests.test_language import TestStaffLanguage
+from tests.test_login import TestDriverLogin, TestStaffLogin
+from tests.test_longhaul import TestDriverLonghaul, TestStaffLonghaul
+from tests.test_report import TestStaffReport
+from tests.test_search import TestStaffSearch
+
 
 if __name__ == '__main__':
     loader = unittest.TestLoader()
@@ -26,7 +26,8 @@ if __name__ == '__main__':
     
     #Driver Test
     driver_suite = unittest.TestSuite()
-    # driver_suite.addTests(loader.loadTestsFromTestCase(TestLogin))
+    driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverLogin))
+    driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverLonghaul))
  
     # unittest.TextTestRunner(Config.VERBOSITY).run(staff_suite)
     unittest.TextTestRunner(Config.VERBOSITY).run(driver_suite)
