@@ -1,27 +1,35 @@
 import unittest
-from tests.test_login import TestLogin
-from tests.test_language import TestLanguage
-from tests.test_longhaul import TestLonghaul
-from tests.test_redeem import TestApproveRedeem
-from tests.test_search import TestSearch
-from tests.test_assign import TestAssignPoint
-from tests.test_analytics import TestAnalytics
-from tests.test_report import TestReport
+from components.main_component import Constant
+from config import Config
+from tests.staff_test.test_staff_login import TestStaffLogin
+from tests.staff_test.test_staff_language import TestStaffLanguage
+from tests.staff_test.test_staff_longhaul import TestStaffLonghaul
+from tests.staff_test.test_staff_approve import TestStaffApprove
+from tests.staff_test.test_staff_search import TestStaffSearch
+from tests.staff_test.test_staff_assign import TestStaffAssign
+from tests.staff_test.test_staff_analytics import TestStaffAnalytics
+from tests.staff_test.test_staff_report import TestStaffReport
 
 if __name__ == '__main__':
     loader = unittest.TestLoader()
-    suite = unittest.TestSuite()
 
-    suite.addTests(loader.loadTestsFromTestCase(TestLogin))
-    suite.addTests(loader.loadTestsFromTestCase(TestLanguage))
-    suite.addTests(loader.loadTestsFromTestCase(TestLonghaul))
-    suite.addTests(loader.loadTestsFromTestCase(TestApproveRedeem))
-    suite.addTests(loader.loadTestsFromTestCase(TestSearch))
-    suite.addTests(loader.loadTestsFromTestCase(TestAssignPoint))
-    suite.addTests(loader.loadTestsFromTestCase(TestAnalytics))
-    suite.addTests(loader.loadTestsFromTestCase(TestReport))
+    #Staff Test
+    staff_suite = unittest.TestSuite()
+    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffLogin))
+    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffLanguage))
+    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffLonghaul))
+    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffApprove))
+    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffSearch))
+    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffAssign))
+    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffAnalytics))
+    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffReport))
+    
+    #Driver Test
+    driver_suite = unittest.TestSuite()
+    # driver_suite.addTests(loader.loadTestsFromTestCase(TestLogin))
  
-    unittest.TextTestRunner(verbosity=2).run(suite)
+    # unittest.TextTestRunner(Config.VERBOSITY).run(staff_suite)
+    unittest.TextTestRunner(Config.VERBOSITY).run(driver_suite)
 
     print("Test Done")
 
