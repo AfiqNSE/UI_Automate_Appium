@@ -20,5 +20,8 @@ class Config:
 
     # Explicit Wait Timeout (seconds)
     EXPLICIT_WAIT = 20
+    
+    # Controls the amount of detail included in the test results output. Note: 2 is the most details
+    VERBOSITY = 2
 
 
