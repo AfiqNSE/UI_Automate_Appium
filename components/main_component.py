@@ -11,12 +11,17 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 #NOTE: Set the testing data
 class Constant:
-    # Testing data for login
+    #Testing data for login
     STAFF_USERNAME = 'Afiq'
     DRIVER_USERNAME = '011-25039688'
     PASSWORD = '12345'
+    
+    #Testing data for longhaul
+    SEARCH_LONGHAULNO = 'LH3001943'
+    POD_LONGHAULNO = 'LH3001860'
+    FAIL_LONGHAULNO = 'LH30010859'
         
-    # Testing data for search
+    #Testing data for search
     SEARCH_LOGSHEETNO = 'DD30010924'
     POD_DOCKETNO_PHOTO = ''
     POD_DOCKETNO_UPLOAD = ''
@@ -24,10 +29,10 @@ class Constant:
     FAIL_DOCKETNO = 'JD300129291'
     DELAY_DOCKETNO = 'JD300130143'
         
-    # Testing data for assign
+    #Testing data for assign
     ASSIGN_LOGSHEETNO = 'DD30010985'
         
-    # Testing data for report
+    #Testing data for report
     REPORT_DATEFROM = '9, Tuesday, January 9, 2024'
     REPORT_DATETO = '30, Tuesday, April 30, 2024'
     
@@ -46,6 +51,10 @@ class Components:
     def cancelButton(self):
         self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.Button[@resource-id="com.nse.project.nse_driver_flutter_app:id/btnBarcodeCaptureCancel"]').click()
     
+    def submitButton(self):
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
+    
+    #SideBar for driver page
     def nav_sideBar(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Open navigation menu').click()
     
@@ -59,7 +68,7 @@ class Components:
     def nav_estDateTime(self):
         #NOTE: set single estDateTime docket
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, self.new_dockets[0]).click()
-        self.get_DisplayedDetails()
+        self.get_displayedDetails()
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, self.est_accessibilityID).click()
         
         actions = ActionChains(self.driver)
@@ -90,7 +99,7 @@ class Components:
         except TimeoutException:
             raise ValueError("Timeout: Element (Date) did not appear within the expected time.")
         
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
+        self.submitButton()
         self.driver.back()
         
         # #NOTE: Set all est date time
@@ -107,10 +116,10 @@ class Components:
         
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Estimate arrival time\nSelect time').click()
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'PM').click()
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
+        self.submitButton()
         
     def nav_viewSignature(self):
-        self.get_DisplayedDetails()
+        self.get_displayedDetails()
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, self.sign_accessibilityID).click()
         time.sleep(1)
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Close').click()
@@ -222,8 +231,7 @@ class Components:
             
         self.fail_attachment()
         self.remove_attachment()
-        
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
+        self.submitButton()
         
         #Wait for the process to return back to homepage
         self.homePagePresence()
@@ -275,8 +283,7 @@ class Components:
             
         self.delay_attachment()
         self.remove_attachment()
-        
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
+        self.submitButton()
         
         #Wait for the process to return back to homepage
         self.homePagePresence()
@@ -337,7 +344,7 @@ class Components:
         self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().className("android.widget.Button").instance(0)').click()
             
     #NOTE: Get latest element that been display at the UI
-    def get_NewDockets(self):
+    def get_dockets(self):
         try:
             #Wait for the element to shows up
             WebDriverWait(self.driver,20).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.view.View[starts-with(@content-desc, "JD3")]')))
@@ -355,7 +362,7 @@ class Components:
             raise ValueError("Timeout: Elements (dockets) did not appear within the expected time.")
     
     #NOTE: Get details elements that been display at the UI
-    def get_DisplayedDetails(self):
+    def get_displayedDetails(self):
         try:
             WebDriverWait(self.driver,20).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Docket Details')))
 
