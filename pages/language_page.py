@@ -6,8 +6,14 @@ from appium.webdriver.common.appiumby import AppiumBy
 class LanguagePage:
     def __init__(self, driver: webdriver.Remote):
         self.driver = driver
+        
+    def nav_staff(self):
+        pass
     
-    def change_staff_language(self):
+    def nav_driver(self):
+        pass
+    
+    def change_language(self):
         self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().className("android.widget.Button").instance(1)').click()
         
         #Change to Malay
