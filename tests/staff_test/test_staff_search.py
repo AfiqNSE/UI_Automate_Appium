@@ -6,7 +6,7 @@ from config import Config
 from pages.staff_page import SearchPage
 from components.main_components import Constant, Components
 
-class TestSearch(unittest.TestCase):
+class TestStaffSearch(unittest.TestCase):
     def setUp(self):
         options = UiAutomator2Options().load_capabilities(Config.capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)

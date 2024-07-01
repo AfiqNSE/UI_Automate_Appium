@@ -3,13 +3,18 @@ from appium.options.android import UiAutomator2Options
 from appium import webdriver
 
 from config import Config
-from pages.staff_page import LonghaulAcceptancePage
+from pages.language_page import LanguagePage
 
-class TestLonghaul(unittest.TestCase):
+class TestStaffLanguage(unittest.TestCase):
     def setUp(self):
         options = UiAutomator2Options().load_capabilities(Config.capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
-        self.longhaul_page = LonghaulAcceptancePage(self.driver)
+        self.language_page = LanguagePage(self.driver)
 
-    def test_longhaul(self):
-        self.longhaul_page.nav_longhaul()
+    def test_staff_language(self):
+        self.language_page.change_language()
+        
+
+        
+
+
