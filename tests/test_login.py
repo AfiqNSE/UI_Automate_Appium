@@ -14,7 +14,7 @@ class TestStaffLogin(unittest.TestCase):
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
         self.login_page = LoginPage(self.driver, username)
         
-        self.login_page.enter_username()
+        self.login_page.enter_staff_username()
         self.login_page.enter_password()
         self.login_page.click_login()
     
