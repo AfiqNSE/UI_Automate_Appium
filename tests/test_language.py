@@ -3,16 +3,18 @@ from appium.options.android import UiAutomator2Options
 from appium import webdriver
 
 from config import Config
-from pages.staff_page import StaffAnalyticsPage
+from pages.language_page import LanguagePage
 
-class TestStaffAnalytics(unittest.TestCase):
+class TestStaffLanguage(unittest.TestCase):
     def setUp(self):
         options = UiAutomator2Options().load_capabilities(Config.capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
-        self.analytics_page = StaffAnalyticsPage(self.driver)
- 
-    def test_login(self):
-        self.analytics_page.nav_anlytics()
+        self.language_page = LanguagePage(self.driver)
+
+    def test_language(self):
+        self.language_page.change_language()
+        
+
         
 
 

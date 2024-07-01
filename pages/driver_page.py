@@ -8,12 +8,6 @@ class NotificationPage:
         self.driver = driver
 
 
-#TODO: Create Notification test module  
-class LonghaulPage:
-    def __init__(self, driver: webdriver.Remote):
-        self.driver = driver
-
-
 #TODO: Create History test module  
 class HistoryPage:
     def __init__(self, driver: webdriver.Remote):
