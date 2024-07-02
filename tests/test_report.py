@@ -3,7 +3,7 @@ from appium.options.android import UiAutomator2Options
 from appium import webdriver
 
 from config import Config
-from pages.staff_page import IODReportPage, GeneralReportPage 
+from pages.report_page import IODReportPage, GeneralReportPage 
 
 class TestStaffReport(unittest.TestCase):
     def setUp(self):
