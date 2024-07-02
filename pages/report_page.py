@@ -5,7 +5,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from components.constant_component import Constant
-from components.main_component import Components
 from selenium.webdriver.common.action_chains import ActionChains
 
 

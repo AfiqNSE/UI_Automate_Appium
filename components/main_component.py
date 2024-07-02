@@ -30,13 +30,6 @@ class Components:
     def nav_sideBar(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Open navigation menu').click()
     
-    #TODO: remove this function
-    def homePagePresence(self):
-        try:
-            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Management Dashboard')))
-        except TimeoutException:
-            raise ValueError("Timeout: Element (Management Dashboard) did not appear within the expected time.")
-    
     #Logout button for staff
     def staff_logout(self):
         self.driver.find_element(AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.widget.Button[3]').click()
@@ -137,9 +130,6 @@ class Components:
 
         except TimeoutException:
             raise ValueError("Timeout: Element (Confirm Upload) did not appear within the expected time.")
-        
-        #Wait for the process to return back to homepage
-        self.homePagePresence()
     
     def pod_upload(self):
         self.nav_pod()
@@ -158,9 +148,6 @@ class Components:
  
         except TimeoutException:
             raise ValueError("Timeout: Element (Confirm Upload) did not appear within the expected time.")
-        
-        #Wait for the process to return back to homepage
-        self.homePagePresence()
 
     def pod_signature(self):
         self.nav_pod()
@@ -193,9 +180,6 @@ class Components:
 
         except TimeoutException:
             raise ValueError("Timeout: Element (Confirm Upload) did not appear within the expected time.")
-        
-        #Wait for the process to return back to homepage
-        self.homePagePresence()
 
     #NOTE: Navigation to do FAIL
     def nav_fail(self):
@@ -213,9 +197,6 @@ class Components:
         self.fail_attachment()
         self.remove_attachment()
         self.submitButton()
-        
-        #Wait for the process to return back to homepage
-        self.homePagePresence()
     
     def fail_attachment(self):
         #Take photo directly
@@ -265,9 +246,6 @@ class Components:
         self.delay_attachment()
         self.remove_attachment()
         self.submitButton()
-        
-        #Wait for the process to return back to homepage
-        self.homePagePresence()
     
     def delay_attachment(self):
         #Take photo directly

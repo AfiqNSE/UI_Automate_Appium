@@ -9,7 +9,7 @@ from tests.test_login_logout import  TestDriverLogout, TestStaffLogin, TestDrive
 from tests.test_longhaul import TestStaffLonghaul, TestDriverLonghaul
 from tests.test_report import TestStaffReport
 from tests.test_reward import TestDriverReward
-from tests.test_search import TestDriverHistory, TestStaffSearch
+from tests.test_search import TestDriverSearch, TestStaffSearch
 from tests.test_notification import TestNotification
 from tests.test_homepage import TestStaffHome, TestDriverHome
 
@@ -35,11 +35,11 @@ if __name__ == '__main__':
     #Driver Test
     driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverLogin))
     driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverHome))
-    driver_suite.addTests(loader.loadTestsFromTestCase(TestNotification))
+    driver_suite.addTests(loader.loadTestsFromTestCase(TestNotification)) 
     driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverLonghaul))
-    driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverHistory))
-    driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverAnalytics))
-    driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverInvalid))
+    driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverSearch)) 
+    driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverAnalytics)) 
+    driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverInvalid)) 
     driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverReward))
     driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverLogout))
 

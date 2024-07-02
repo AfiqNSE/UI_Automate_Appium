@@ -8,7 +8,6 @@ from components.constant_component import Constant
 from components.main_component import Components
 
 
-
 # Testing part for Assign Point
 class AssignPointPage:
     assign_dockets = []
