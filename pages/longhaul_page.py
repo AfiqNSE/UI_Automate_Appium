@@ -19,6 +19,14 @@ class LonghaulPage:
     def nav_staff_longhaul(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Longhaul\nAcceptance').click()
         Components.cancelButton()
+    
+    #NOTE: Main Process
+    def load_longhaulPage(self):
+        if self.nav_driver_longhaul() == True:
+            self.scan_longhaul()
+            self.insert_longhaul()
+        else:
+            self.driver.back()
         
     #Longhaul navigation for driver
     def nav_driver_longhaul(self) -> bool:
@@ -47,7 +55,7 @@ class LonghaulPage:
     def scan_longhaul(self):
         self.option_button()
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Scan Longhaul Barcode').click()
-        Components.cancelButton()
+        Components.cancelButton(self)
                 
     def insert_longhaul(self):
         self.option_button()
@@ -56,7 +64,7 @@ class LonghaulPage:
         self.driver.hide_keyboard()
         
         if Constant.SEARCH_LOGSHEETNO != '':
-            Components.submitButton()
+            Components.submitButton(self)
         
         else:
             raise ValueError('\nNo longhaul number provided')
@@ -74,8 +82,6 @@ class LonghaulPage:
                     longhaul = item.get_attribute('content-desc')
                     self.longhaul_list.append(longhaul)
             
-            print(len(self.longhaul_list))
-                    
         except TimeoutException:
             raise ValueError('TimeoutException: Unable to locate [displayed longhaul]')
         
