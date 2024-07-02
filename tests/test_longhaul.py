@@ -10,25 +10,21 @@ class TestStaffLonghaul(unittest.TestCase):
     def setUp(self):
         options = UiAutomator2Options().load_capabilities(Config.capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
-        self.longhaul_page = LonghaulPage(self.driver)
+        self.longhaul_staff = LonghaulPage(self.driver)
 
     def test_longhaul(self):
-        self.longhaul_page.nav_staff_longhaul()
+        self.longhaul_staff.nav_staff_longhaul()
         
 
 class TestDriverLonghaul(unittest.TestCase):
     def setUp(self):
         options = UiAutomator2Options().load_capabilities(Config.capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
-        self.longhaul = LonghaulPage(self.driver)
+        self.longhaul_driver = LonghaulPage(self.driver)
         self.component = Components(self.driver)
 
     def test_longhaul(self):
         self.component.nav_sideBar()
-        
-        if self.longhaul.nav_driver_longhaul() == True:
-            self.longhaul.scan_longhaul()
-            self.longhaul.insert_longhaul()
-        else:
-            raise ValueError('Error: Cannot navigate to longhaul')
+        self.longhaul_driver.load_longhaulPage()
+      
       
