@@ -1,7 +1,7 @@
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
 
-from components.main_component import Constant
+from components.constant_component import Constant
 
 #Testing class for Login
 class LoginPage:
