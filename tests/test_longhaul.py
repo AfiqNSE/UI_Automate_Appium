@@ -25,6 +25,10 @@ class TestDriverLonghaul(unittest.TestCase):
 
     def test_longhaul(self):
         self.component.nav_sideBar()
-        self.longhaul.nav_driver_longhaul()
-        self.longhaul.scan_longhaul()
-        self.longhaul.insert_longhaul()
+        
+        if self.longhaul.nav_driver_longhaul() == True:
+            self.longhaul.scan_longhaul()
+            self.longhaul.insert_longhaul()
+        else:
+            raise ValueError('Error: Cannot navigate to longhaul')
+      
