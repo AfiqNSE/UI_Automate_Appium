@@ -11,21 +11,21 @@ class TestStaffAnalytics(unittest.TestCase):
     def setUp(self):
         options = UiAutomator2Options().load_capabilities(Config.capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
-        self.analytics_page = AnalyticsPage(self.driver)
+        self.analytics_staff = AnalyticsPage(self.driver)
  
-    def test_analytics(self):
-        self.analytics_page.nav_staff_analytics()
+    def test_staffAnalytics(self):
+        self.analytics_staff.nav_staff_analytics()
         
 
 class TestDriverAnalytics(unittest.TestCase):
     def setUp(self):
         options = UiAutomator2Options().load_capabilities(Config.capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
-        self.analytics_page = AnalyticsPage(self.driver)
+        self.analytics_driver = AnalyticsPage(self.driver)
         self.component = Components(self.driver)
         
-    def test_analytics(self):
+    def test_driverAnalytics(self):
         self.component.nav_sideBar()
-        self.analytics_page.nav_driver_analytics()
+        self.analytics_driver.nav_driver_analytics()
 
 
