@@ -4,7 +4,7 @@ from appium import webdriver
 
 from components.main_component import Components
 from config import Config
-from pages.driver_page import InvalidIODPage
+from pages.home_page import InvalidIODPage
 
 class TestDriverInvalid(unittest.TestCase):
     def setUp(self):
