@@ -44,7 +44,7 @@ if __name__ == '__main__':
     driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverLogout))
 
  
-    # unittest.TextTestRunner(verbosity=Config.VERBOSITY).run(staff_suite)
+    unittest.TextTestRunner(verbosity=Config.VERBOSITY).run(staff_suite)
     unittest.TextTestRunner(verbosity=Config.VERBOSITY).run(driver_suite)
 
     print("Test Done")
