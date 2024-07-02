@@ -4,6 +4,7 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support import expected_conditions as EC
 
 
 
@@ -29,6 +30,8 @@ class AnalyticsPage:
         actions.release().perform()
 
     def nav_staff_analytics(self):
+        self.scroll_analytics()
+        
         try:
             WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Analytics'))).click()
             time.sleep(1)
