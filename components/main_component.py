@@ -8,35 +8,6 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.action_chains import ActionChains
 
 
-
-#NOTE: Set the testing data
-class Constant:
-    #Testing data for login
-    STAFF_USERNAME = 'Afiq'
-    DRIVER_USERNAME = '011-25039688'
-    PASSWORD = '12345'
-    
-    #Testing data for longhaul
-    SEARCH_LONGHAULNO = 'LH3001943'
-    POD_LONGHAULNO = 'LH3001860'
-    FAIL_LONGHAULNO = 'LH30010859'
-        
-    #Testing data for search
-    SEARCH_LOGSHEETNO = 'DD30010924'
-    POD_DOCKETNO_PHOTO = ''
-    POD_DOCKETNO_UPLOAD = ''
-    POD_DOCKETNO_SIGNATURE = 'JD300129988'
-    FAIL_DOCKETNO = 'JD300129291'
-    DELAY_DOCKETNO = 'JD300130143'
-        
-    #Testing data for assign
-    ASSIGN_LOGSHEETNO = 'DD30010985'
-        
-    #Testing data for report
-    REPORT_DATEFROM = '9, Tuesday, January 9, 2024'
-    REPORT_DATETO = '30, Tuesday, April 30, 2024'
-    
-
 class Components:
     #defining constructor  
     def __init__(self, driver: webdriver.Remote):
@@ -51,6 +22,7 @@ class Components:
     def cancelButton(self):
         self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.Button[@resource-id="com.nse.project.nse_driver_flutter_app:id/btnBarcodeCaptureCancel"]').click()
     
+    #Submit button
     def submitButton(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
     
@@ -58,13 +30,21 @@ class Components:
     def nav_sideBar(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Open navigation menu').click()
     
-    #NOTE: Check the availability of the home srceen
+    #TODO: remove this function
     def homePagePresence(self):
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Management Dashboard')))
         except TimeoutException:
             raise ValueError("Timeout: Element (Management Dashboard) did not appear within the expected time.")
     
+    #Logout button for staff
+    def driver_logout(self):
+        self.driver.find_element(AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.widget.Button[3]').click()
+
+    #Logout button for driver
+    def staff_logout(self):
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Logout').click()  
+        
     def nav_estDateTime(self):
         #NOTE: set single estDateTime docket
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, self.new_dockets[0]).click()
