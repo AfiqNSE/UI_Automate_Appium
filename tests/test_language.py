@@ -23,6 +23,7 @@ class TestDriverLanguage(unittest.TestCase):
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
         self.language_page = LanguagePage(self.driver)
 
+    #TODO: Check again for language part
     def test_language(self):
         self.language_page.nav_driver_language()
         self.language_page.malay_language()
