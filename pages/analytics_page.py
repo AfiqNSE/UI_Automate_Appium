@@ -37,11 +37,17 @@ class AnalyticsPage:
             time.sleep(1)
 
         except TimeoutException:
-            raise ValueError("Timeout: Element (Analytics) did not appear within the expected time.")
-
-        self.driver.back()
-
-    #TODO: Create Analytics test module  
+            raise ValueError("TimeoutException: Unable to locate [analytics]")
+        
     def nav_driver_analytics(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, "Analytics").click()
-        self.driver.back()
+        
+        try:
+            WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Analytics')))
+            time.sleep(1)
+            self.driver.back()
+            
+        except TimeoutException:
+            raise ValueError("TimeoutException: Unable to locate [analytics appbar]")
+        
+
