@@ -38,11 +38,12 @@ class Components:
             raise ValueError("Timeout: Element (Management Dashboard) did not appear within the expected time.")
     
     #Logout button for staff
-    def driver_logout(self):
+    def staff_logout(self):
         self.driver.find_element(AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.widget.Button[3]').click()
 
     #Logout button for driver
-    def staff_logout(self):
+    def driver_logout(self):
+        self.nav_sideBar()
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Logout').click()  
         
     def nav_estDateTime(self):
