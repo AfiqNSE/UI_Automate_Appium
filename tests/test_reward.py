@@ -1,10 +1,9 @@
 import unittest
 from appium.options.android import UiAutomator2Options
 from appium import webdriver
-
 from components.main_component import Components
 from config import Config
-from pages.driver_page import RewardPage
+from pages.reward_page import RewardPage
 
 class TestDriverReward(unittest.TestCase):
     def setUp(self):
