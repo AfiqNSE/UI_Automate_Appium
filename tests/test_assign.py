@@ -3,7 +3,7 @@ from appium.options.android import UiAutomator2Options
 from appium import webdriver
 
 from config import Config
-from pages.staff_page import AssignPointPage
+from pages.assign_page import AssignPointPage
 
 class TestStaffAssign(unittest.TestCase):
     def setUp(self):
