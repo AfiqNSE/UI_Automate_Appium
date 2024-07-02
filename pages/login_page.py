@@ -12,18 +12,21 @@ class LoginPage:
     def enter_staff_username(self):
         textfield = self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.widget.EditText[1]')
         textfield.click()
+        textfield.clear()
         textfield.send_keys(Constant.STAFF_USERNAME)
         self.driver.hide_keyboard()     
         
     def enter_driver_username(self):
         textfield = self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.widget.EditText[1]')
         textfield.click()
+        textfield.clear()
         textfield.send_keys(Constant.DRIVER_USERNAME)
         self.driver.hide_keyboard()   
         
     def enter_password(self):
         textfield = self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.widget.EditText[2]')
         textfield.click()
+        textfield.clear()
         textfield.send_keys(Constant.PASSWORD)
         self.driver.hide_keyboard()    
 
