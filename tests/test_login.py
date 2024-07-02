@@ -1,9 +1,6 @@
 import unittest
 from appium.options.android import UiAutomator2Options
-from parameterized import parameterized
 from appium import webdriver
-
-from components.main_component import Constant
 from config import Config
 from pages.login_page import LoginPage
 
