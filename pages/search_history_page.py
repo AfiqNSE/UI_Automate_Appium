@@ -1,121 +1,139 @@
+import os
 import time
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
+from dotenv import load_dotenv
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-from components.constant_component import Constant
 from components.main_component import Components
 from pages.home_page import DriverHomePage, StaffHomePage
 
 
 #NOTE: Been used for search & history (Staff & Driver)
 class SearchHistoryPage:
+    load_dotenv()
+    logsheetNo = os.getenv("SEARCH_LOGSHEETNO")
+    photo_docketNo = os.getenv("POD_DOCKETNO_PHOTO")
+    upload_docketNo = os.getenv("POD_DOCKETNO_UPLOAD")
+    signature_docketNo = os.getenv("POD_DOCKETNO_SIGNATURE")
+    fail_docketNo = os.getenv("FAIL_DOCKETNO")
+    delay_docketNo = os.getenv("DELAY_DOCKETNO")
+    
     #defining constructor  
     def __init__(self, driver: webdriver.Remote):
         self.driver = driver
+        self.component = Components(self.driver)
 
     #Search logsheet
     def staff_logsheet_search(self):
         self.nav_search()
         self.option_buttonStaff()
-        self.insert_logsheet(Constant.SEARCH_LOGSHEETNO)
+        self.insert_logsheet(self.logsheetNo)
     
     #POD camera photo [staff]
     def staff_pod_photoDocket(self):
         self.nav_search()
         self.option_buttonStaff()
-        self.insert_docket(Constant.POD_DOCKETNO_PHOTO)
-        Components.pod_photo(self)
+        self.insert_docket(self.photo_docketNo)
+        self.component.pod_photo()
         StaffHomePage.load_staffHome(self)
     
     #POD upload photo [staff]
     def staff_pod_uploadDocket(self):
         self.nav_search()  
         self.option_buttonStaff()
-        self.insert_docket(Constant.POD_DOCKETNO_UPLOAD)
-        Components.pod_upload(self)
+        self.insert_docket(self.upload_docketNo)
+        self.component.pod_upload()
         StaffHomePage.load_staffHome(self)
     
     #POD signature [staff]
     def staff_pod_signatureDocket(self):
         self.nav_search()        
         self.option_buttonStaff()
-        self.insert_docket(Constant.POD_DOCKETNO_SIGNATURE)
-        Components.pod_signature(self)
+        self.insert_docket(self.signature_docketNo)
+        self.component.pod_signature()
         StaffHomePage.load_staffHome(self)
     
     #Fail docket [staff]
     def staff_fail_docket(self):
         self.nav_search()
         self.option_buttonStaff()
-        self.insert_docket(Constant.FAIL_DOCKETNO)
-        Components.nav_fail(self)
+        self.insert_docket(self.fail_docketNo)
+        self.component.nav_fail()
         StaffHomePage.load_staffHome(self)
     
     #Delay docket [staff] 
     def staff_delay_docket(self):   
         self.nav_search()
         self.option_buttonStaff()
-        self.insert_docket(Constant.DELAY_DOCKETNO)
-        Components.nav_delay(self)
+        self.insert_docket(self.delay_docketNo)
+        self.component.nav_delay()
         StaffHomePage.load_staffHome(self)
     
     #Additional details [staff] 
     def staff_additional(self):   
         self.nav_search()
+        self.option_buttonStaff()
         # self.search_page.check_search_history()
-        self.insert_docket(Constant.POD_DOCKETNO_SIGNATURE)
-        Components.nav_viewSignature(self)
-        Components.nav_docketPreview(self)
+        self.insert_docket(self.signature_docketNo)
+        self.component.nav_viewSignature()
+        self.component.nav_docketPreview()
         
     #POD camera photo [Driver]
     def driver_pod_photoDocket(self):
-        self.nav_search()
-        self.option_buttonStaff()
-        self.insert_docket(Constant.POD_DOCKETNO_PHOTO)
-        Components.pod_photo(self)
+        self.component.nav_sideBar()
+        self.nav_history()
+        self.option_buttonDriver()
+        self.insert_docket(self.photo_docketNo)
+        self.component.pod_photo()
         DriverHomePage.load_driverHome(self)
     
     #POD upload photo [driver]
     def driver_pod_uploadDocket(self):
-        self.nav_search()  
-        self.option_buttonStaff()
-        self.insert_docket(Constant.POD_DOCKETNO_UPLOAD)
-        Components.pod_upload(self)
+        self.component.nav_sideBar()
+        self.nav_history()  
+        self.option_buttonDriver()
+        self.insert_docket(self.upload_docketNo)
+        self.component.pod_upload()
         DriverHomePage.load_driverHome(self)
     
     #POD signature [driver]
     def driver_pod_signatureDocket(self):
+        self.component.nav_sideBar()
         self.nav_search()        
-        self.option_buttonStaff()
-        self.insert_docket(Constant.POD_DOCKETNO_SIGNATURE)
-        Components.pod_signature(self)
+        self.option_buttonDriver()
+        self.insert_docket(self.signature_docketNo)
+        self.component.pod_signature()
         DriverHomePage.load_driverHome(self)
     
     #Fail docket [driver]
     def driver_fail_docket(self):
-        self.nav_search()
-        self.option_buttonStaff()
-        self.insert_docket(Constant.FAIL_DOCKETNO)
-        Components.nav_fail(self)
+        self.component.nav_sideBar()
+        self.nav_history()
+        self.option_buttonDriver()
+        self.insert_docket(self.fail_docketNo)
+        self.component.nav_fail()
         DriverHomePage.load_driverHome(self)
     
     #Delay docket [driver] 
     def driver_delay_docket(self):   
-        self.nav_search()
-        self.option_buttonStaff()
-        self.insert_docket(Constant.DELAY_DOCKETNO)
-        Components.nav_delay(self)
+        self.component.nav_sideBar()
+        self.nav_history()
+        self.option_buttonDriver()
+        self.insert_docket(self.delay_docketNo)
+        self.component.nav_delay()
         DriverHomePage.load_driverHome(self)
     
     #Additional details [driver] 
     def driver_additional(self):   
-        self.nav_search()
+        self.component.nav_sideBar()
+        self.nav_history()
+        self.option_buttonDriver()
         # self.search_page.check_search_history()
-        self.insert_docket(Constant.POD_DOCKETNO_SIGNATURE)
-        Components.nav_viewSignature(self)
-        Components.nav_docketPreview(self)
+        self.insert_docket(self.signature_docketNo)
+        self.component.nav_viewSignature()
+        self.component.nav_docketPreview()
     
     #Navigate to search page at Staff 
     def nav_search(self):
@@ -141,13 +159,13 @@ class SearchHistoryPage:
         self.driver.hide_keyboard()
         
         if logsheetNo != '':
-            Components.submitButton(self)
+            self.component.submitButton(self)
                         
             #Wait & get the elements displayed
-            Components(self.driver).get_dockets()
+            self.component.get_dockets()
 
             # Do est date time
-            Components(self.driver).nav_estDateTime()
+            self.component.nav_estDateTime()
             
         else:
             raise ValueError('\nNo logsheet number provided')
@@ -168,7 +186,7 @@ class SearchHistoryPage:
         self.driver.hide_keyboard()
         
         if docketNo != "":
-            Components.submitButton(self)
+            self.component.submitButton()
         else:
             raise ValueError('\nNo docket number provided')    
 
@@ -189,7 +207,7 @@ class SearchHistoryPage:
             print(history_list)
                     
             if(len(history_list) != 0):
-                self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, Constant.POD_DOCKETNO_SIGNATURE).click()
+                self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, self.signature_docketNo).click()
                 time.sleep(1)
                 self.driver.back()
             
