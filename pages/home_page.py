@@ -1,11 +1,12 @@
+import os
 import time
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
+from dotenv import load_dotenv
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
-from components.constant_component import Constant
 from components.main_component import Components
 
 class StaffHomePage:
@@ -20,6 +21,9 @@ class StaffHomePage:
         
 
 class DriverHomePage:
+    load_dotenv()
+    signature_docketNo = os.getenv("POD_DOCKETNO_SIGNATURE")
+    
     def __init__(self, driver: webdriver.Remote):
         self.driver = driver
     
@@ -56,9 +60,9 @@ class DriverHomePage:
     def insert_docket(self):
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Insert Docket Number'))).click()
-            self.driver.find_element(AppiumBy.XPATH, '//android.widget.EditText').send_keys(Constant.POD_DOCKETNO_SIGNATURE)
+            self.driver.find_element(AppiumBy.XPATH, '//android.widget.EditText').send_keys(self.signature_docketNo)
             
-            if Constant.POD_DOCKETNO_SIGNATURE != '':
+            if self.signature_docketNo != '':
                 Components.submitButton(self)
                 time.sleep(1)
             

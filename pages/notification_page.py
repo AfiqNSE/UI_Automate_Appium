@@ -16,4 +16,4 @@ class NotificationPage:
             self.driver.back()
             
         except TimeoutException:
-            raise ValueError("TimeoutException: Unable to locate notification icon")
+            raise ValueError("TimeoutException: Unable to locate [notification icon]")

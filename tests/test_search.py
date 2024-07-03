@@ -1,10 +1,7 @@
 import unittest
 from appium.options.android import UiAutomator2Options
 from appium import webdriver
-from components.constant_component import Constant
 from config import Config
-from components.main_component import Components
-from pages.home_page import DriverHomePage
 from pages.search_history_page import SearchHistoryPage
 
 class TestStaffSearch(unittest.TestCase):

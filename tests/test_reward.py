@@ -15,3 +15,4 @@ class TestDriverReward(unittest.TestCase):
     def test_reward(self):
         self.component.nav_sideBar()
         self.reward.nav_reward()
+        self.reward.load_rewardPage()

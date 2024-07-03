@@ -1,15 +1,18 @@
+import os
 import time
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
+from dotenv import load_dotenv
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-from components.constant_component import Constant
 from components.main_component import Components
 
 
 # Testing part for Assign Point
 class AssignPointPage:
+    load_dotenv()
+    assign_logsheetNo = os.getenv("ASSIGN_LOGSHEETNO")
     assign_dockets = []
 
     #defining constructor  
@@ -26,9 +29,9 @@ class AssignPointPage:
     def insert_logsheet(self):
         self.nav_assignPoint()
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Insert Logsheet Number').click()
-        self.driver.find_element(AppiumBy.XPATH, '//android.widget.EditText').send_keys(Constant.ASSIGN_LOGSHEETNO)
+        self.driver.find_element(AppiumBy.XPATH, '//android.widget.EditText').send_keys(self.assign_logsheetNo)
         self.driver.hide_keyboard()
-        Components.submitButton()
+        Components.submitButton(self)
 
     #NOTE: Check the filter functionality
     def check_filter(self):

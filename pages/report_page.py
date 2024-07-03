@@ -1,10 +1,10 @@
+import os
 import time
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-from components.constant_component import Constant
 from selenium.webdriver.common.action_chains import ActionChains
 
 
@@ -166,6 +166,9 @@ class IODReportPage:
 
 # Testing part for General Report
 class GeneralReportPage:
+    report_dateFrom = os.getenv("REPORT_DATEFROM")
+    report_dateTo = os.getenv("REPORT_DATETO")
+    
     #defining constructor  
     def __init__(self, driver: webdriver.Remote):
         self.driver = driver
@@ -191,7 +194,7 @@ class GeneralReportPage:
             for _ in range(5):
                 self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().className("android.widget.Button").instance(1)').click()
 
-                self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, Constant.REPORT_DATEFROM).click()
+                self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, self.report_dateFrom).click()
                 self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'OK').click()
         except TimeoutException:
             raise ValueError("Timeout: Elements did not appear.")
@@ -202,7 +205,7 @@ class GeneralReportPage:
             for _ in range(2):
                 self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().className("android.widget.Button").instance(1)').click()
 
-                self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, Constant.REPORT_DATETO).click()
+                self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, self.report_dateTo).click()
                 self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'OK').click()
 
         except TimeoutException:
