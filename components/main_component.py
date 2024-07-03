@@ -1,6 +1,6 @@
+import os
 import time
 from appium import webdriver
-
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -9,15 +9,19 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 
 class Components:
-    #defining constructor  
-    def __init__(self, driver: webdriver.Remote):
-        self.driver = driver
-        
+    estDate = os.getenv("EST_DATE")
+    estTime = os.getenv("EST_TIME")
+    
     new_dockets = []
     all_details  = []
     sign_accessibilityID = ''
     est_accessibilityID = ''
     
+    
+    #defining constructor  
+    def __init__(self, driver: webdriver.Remote):
+        self.driver = driver
+
     #NOTE: This code is to use cancel button at UI
     def cancelButton(self):
         self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.Button[@resource-id="com.nse.project.nse_driver_flutter_app:id/btnBarcodeCaptureCancel"]').click()
@@ -54,7 +58,7 @@ class Components:
         actions.perform()
         
         try:
-            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, '30, Sunday, June 30, 2024'))).click()
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, self.estDate))).click()
             self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'OK').click()
             
         except TimeoutException:
@@ -82,7 +86,7 @@ class Components:
         self.driver.find_element(AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]').click()
         
         try:
-            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, '30, Sunday, June 30, 2024'))).click()
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, self.estDate))).click()
             self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'OK').click()
             
         except TimeoutException:
@@ -139,16 +143,15 @@ class Components:
         
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.LinearLayout[@content-desc="IMG_20240626_034459.jpg, 146 kB, Jun 26"]'))).click()
+            try:
+                WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Confirm Upload'))).click()
  
+            except TimeoutException:
+                raise ValueError("Timeout: Element (Confirm Upload) did not appear within the expected time.")
+
         except TimeoutException:
             raise ValueError("Timeout: Element (Image) did not appear within the expected time.")
             
-        try:
-            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Confirm Upload'))).click()
- 
-        except TimeoutException:
-            raise ValueError("Timeout: Element (Confirm Upload) did not appear within the expected time.")
-
     def pod_signature(self):
         self.nav_pod()
         
@@ -179,56 +182,72 @@ class Components:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Confirm Upload'))).click()
 
         except TimeoutException:
-            raise ValueError("Timeout: Element (Confirm Upload) did not appear within the expected time.")
+            raise ValueError("TimeoutException: Unable to locate [Confirm Upload]")
 
     #NOTE: Navigation to do FAIL
     def nav_fail(self):
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Fail').click()
-        
-        #Choose fail reason
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Select Fail Reason').click()
-        
         try:
-            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Store Closed'))).click()
-        
-        except TimeoutException:
-            raise ValueError("Timeout: Element (Store Closed) did not appear within the expected time.")
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Fail'))).click()
             
-        self.fail_attachment()
-        self.remove_attachment()
-        self.submitButton()
-    
+            #Choose fail reason
+            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Select Fail Reason').click()
+            
+            try:
+                WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Store Closed'))).click()
+                
+                self.fail_attachment()
+                self.remove_attachment()
+                self.submitButton()
+                
+            except TimeoutException:
+                raise ValueError("TimeoutException: Unable to locate [Store Closed]")
+            
+        except TimeoutException:
+            raise ValueError("TimeoutException: Unable to locate [Fail Button]")
+          
     def fail_attachment(self):
-        #Take photo directly
+        ##Upload Do/Logsheet photo
         self.driver.find_element(AppiumBy.XPATH, '(//android.widget.Button[@content-desc="Take Photo"])[1]').click()
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Take Photos').click()
-        self.driver.back()
-    
-        #Upload Do/Logsheet photo
-        self.driver.find_element(AppiumBy.XPATH, '(//android.widget.Button[@content-desc="Take Photo"])[1]').click()
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Upload Photo').click()
         
         try:
-            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.LinearLayout[@content-desc="IMG_20240626_034459.jpg, 146 kB, Jun 26"]'))).click()
-                
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Shutter'))).click()
+            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Done').click()
+            
         except TimeoutException:
-            raise ValueError("Timeout: Element (Image) did not appear within the expected time.")
+            raise ValueError("TimeoutException: Unable to locate [shutter icon]")
+    
+        try:
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.XPATH, '(//android.widget.Button[@content-desc="Take Photo"])[1]'))).click()
+            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Upload Photo').click()
+             
+            try:
+                WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.LinearLayout[@content-desc="IMG_20240626_034459.jpg, 146 kB, Jun 26"]'))).click()
+                    
+            except TimeoutException:
+                raise ValueError("Timeout: Element (Image) did not appear within the expected time.")
+        
+        except TimeoutException:
+            raise ValueError("TimeoutException: Unable to locate [Take Photo Text]")       
+       
+        time.sleep(1)
         
         #Upload attachment
         for _ in range(2):
             try:
                 WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.XPATH, '(//android.widget.Button[@content-desc="Take Photo"])[2]'))).click()
+                self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Upload Photo').click()
+            
+                try:
+                    WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.LinearLayout[@content-desc="IMG_20240626_034459.jpg, 146 kB, Jun 26"]'))).click()
+                    
+                except TimeoutException:
+                    raise ValueError("Timeout: Element (Image) did not appear within the expected time.")
                 
             except TimeoutException:
                  raise ValueError("Timeout: Element (Take Photo) did not appear within the expected time.")
             
-            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Upload Photo').click()
-            
-            try:
-                WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.LinearLayout[@content-desc="IMG_20240626_034459.jpg, 146 kB, Jun 26"]'))).click()
-                
-            except TimeoutException:
-                raise ValueError("Timeout: Element (Image) did not appear within the expected time.")
+        time.sleep(1)
     
     #NOTE: Navigation to do DELAY
     def nav_delay(self):
@@ -239,36 +258,44 @@ class Components:
         
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Truck breakdown'))).click()
-        
+
+            self.delay_attachment()
+            self.remove_attachment()
+            self.submitButton()
+            
         except TimeoutException:
             raise ValueError("Timeout: Element (Truck breakdown) did not appear within the expected time.")
             
-        self.delay_attachment()
-        self.remove_attachment()
-        self.submitButton()
-    
     def delay_attachment(self):
         #Take photo directly
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Take Photo').click()
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Take Photos').click()
-        self.driver.back()
-    
+        
+        try:
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Shutter'))).click()
+            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Done').click()
+        except TimeoutException:
+            raise ValueError("TimeoutException: Unable to locate [shutter icon]")
+
+        time.sleep(1)
+        
         #Upload attachment
         for _ in range(2):
             try:
                 WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Take Photo'))).click()
-
+                self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Upload Photo').click()
+            
+                try:
+                    WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.LinearLayout[@content-desc="IMG_20240626_034459.jpg, 146 kB, Jun 26"]'))).click()
+                    
+                except TimeoutException:
+                    raise ValueError("Timeout: Element (Image) did not appear within the expected time.")
+                
             except TimeoutException:
                  raise ValueError("Timeout: Element (Take Photo) did not appear within the expected time.")
             
-            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Upload Photo').click()
-            
-            try:
-                WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.LinearLayout[@content-desc="IMG_20240626_034459.jpg, 146 kB, Jun 26"]'))).click()
-                
-            except TimeoutException:
-                raise ValueError("Timeout: Element (Image) did not appear within the expected time.")
-    
+        time.sleep(1)
+        
     def remove_logsheetPhoto(self):
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.ImageView'))).click()
