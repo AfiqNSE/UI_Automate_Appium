@@ -27,7 +27,8 @@ class TestDriverHome(unittest.TestCase):
         self.home_driver.logsheet_change()
         self.home_driver.option_button()
         self.home_driver.insert_docket()
-        self.home_driver.driverPage_est()
+        #K.I.V, already test at search
+        # self.home_driver.driverPage_est()
                 
         
 

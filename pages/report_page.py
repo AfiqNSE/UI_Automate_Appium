@@ -220,8 +220,7 @@ class ReportsPage:
         # Pick Date To
         try:
             WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View[2]'))).click()
-          
-            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, self.report_dateTo).click()
+            WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((AppiumBy.ACCESSIBILITY_ID, self.report_dateTo))).click()
             self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'OK').click()
 
         except TimeoutException:

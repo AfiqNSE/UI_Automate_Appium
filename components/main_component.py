@@ -30,8 +30,12 @@ class Components:
     
     #Submit button
     def submitButton(self):
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'SUBMIT').click()
-    
+        try:
+            WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'SUBMIT'))).click()
+            
+        except TimeoutException:
+            raise ValueError("TimeoutException: Unable to located [Submit Button]")
+        
     #SideBar for driver page
     def nav_sideBar(self):
         try:
@@ -72,6 +76,7 @@ class Components:
         except TimeoutException:
             raise ValueError("Timeout: Element (Date) did not appear within the expected time.")
 
+        time.sleep(2)
         
         #Set Time
         actions.w3c_actions.pointer_action.move_to_location(x=500, y=1240)
@@ -93,6 +98,7 @@ class Components:
         # #NOTE: Set all est date time
         self.nav_selectMode(self.new_dockets)
         self.select_all()
+        
         self.driver.find_element(AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]').click()
         
         try:
@@ -100,10 +106,16 @@ class Components:
             self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'OK').click()
             
         except TimeoutException:
-            raise ValueError("Timeout: Element (Date) did not appear within the expected time.")
+            raise ValueError("Timeout: unable to located [Date]")
         
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Estimate arrival time\nSelect time').click()
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'PM').click()
+        
+        try:
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'PM'))).click()
+                        
+        except TimeoutException:
+            raise ValueError("Timeout: unable to located [PM]")
+        
         self.submitButton()
         
         time.sleep(2)
@@ -224,7 +236,7 @@ class Components:
 
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Shutter'))).click()
-            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Done').click()
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Done'))).click()
             
         except TimeoutException:
             raise ValueError("TimeoutException: Unable to locate [shutter icon]")
@@ -285,7 +297,8 @@ class Components:
         
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Shutter'))).click()
-            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Done').click()
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Done'))).click()
+            
         except TimeoutException:
             raise ValueError("TimeoutException: Unable to locate [shutter icon]")
 
@@ -306,7 +319,7 @@ class Components:
             except TimeoutException:
                  raise ValueError("Timeout: Element (Take Photo) did not appear within the expected time.")
             
-        time.sleep(1)
+        time.sleep(2)
         
     def remove_logsheetPhoto(self):
         try:

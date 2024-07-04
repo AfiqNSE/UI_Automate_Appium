@@ -111,13 +111,14 @@ class AssignPointPage:
         
     #NOTE: Get latest element that been display at the UI
     def get_displayedDockets(self):
-        self.dockets_list = []
+        
         #Wait for the element to shows up & store the latest
         try:
             WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.view.View[starts-with(@content-desc, "JD3")]')))
 
             all_items = self.driver.find_elements(AppiumBy.XPATH, '//android.view.View[starts-with(@content-desc, "JD3")]')
             
+            self.dockets_list = []
             for item in all_items:
                 if item.is_displayed():
                     docketNo = item.get_attribute("content-desc")

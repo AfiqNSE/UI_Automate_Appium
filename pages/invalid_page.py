@@ -63,9 +63,19 @@ class InvalidIODPage:
 
     def retake_pod(self):
         self.driver.find_element(AppiumBy.XPATH, '//android.widget.Button[@content-desc="Retake"]').click()
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Shutter').click()
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Done').click()
         
+        try:
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Shutter'))).click()
+            
+            try:
+                WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Done'))).click()
+            
+            except TimeoutException:
+                raise ValueError("TimeoutException: unable to located [Done Button]")
+            
+        except TimeoutException:
+            raise ValueError("TimeoutException: unable to located [Shutter Button]")
+
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Confirm Upload'))).click()
 
