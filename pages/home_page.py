@@ -22,37 +22,39 @@ class StaffHomePage:
 
 class DriverHomePage:
     load_dotenv()
-    signature_docketNo = os.getenv("POD_DOCKETNO_SIGNATURE")
+    view_docketNo = os.getenv("VIEW_DOCKET")
     
     def __init__(self, driver: webdriver.Remote):
         self.driver = driver
+        self.component = Components(self.driver)
     
     def load_driverHome(self):
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Home')))
                     
         except TimeoutException:
-            raise ValueError("TimeoutException: Unable to locate [home appbar]")
+            raise ValueError("TimeoutException: Unable to locate [Home Appbar]")
         
     def logsheet_change(self):
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().className("android.widget.Button").instance(3)'))).click()
             self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().className("android.widget.Button").instance(2)').click()
-        
+            time.sleep(2)
+            
         except TimeoutException:
-            raise ValueError("TimeoutException: Unable to locate logsheet change icon")
+            raise ValueError("TimeoutException: Unable to locate [Logsheet Change Icon]")
     
     def option_button(self):
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Scan Docket/Logsheet Number'))).click()
         
         except TimeoutException:
-            raise ValueError("TimeoutException: Unable to locate [option button]")
+            raise ValueError("TimeoutException: Unable to locate [Option Button]")
         
     def scan_docket(self):
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Scan Docket Barcode'))).click()
-            Components.cancelButton(self)
+            self.component.cancelButton()
         
         except TimeoutException:
             raise ValueError("TimeoutException: Unable to locate [Scan Docket Barcode Option]")
@@ -60,17 +62,15 @@ class DriverHomePage:
     def insert_docket(self):
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Insert Docket Number'))).click()
-            self.driver.find_element(AppiumBy.XPATH, '//android.widget.EditText').send_keys(self.signature_docketNo)
+            self.driver.find_element(AppiumBy.XPATH, '//android.widget.EditText').send_keys(self.view_docketNo)
             
-            if self.signature_docketNo != '':
-                Components.submitButton(self)
-                time.sleep(1)
-            
+            if self.view_docketNo != '':
+                self.component.submitButton()
             else:
                 raise ValueError('\nNo logsheet number provided')
             
-
             self.driver.back()
+            time.sleep(2)
             
         except TimeoutException:
             raise ValueError("TimeoutException: Unable to locate [Insert Docket Number Option]")
@@ -78,7 +78,7 @@ class DriverHomePage:
     def scan_logsheet(self):
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Scan Logsheet Barcode'))).click()
-            Components.cancelButton(self)
+            self.component.cancelButton()
         
         except TimeoutException:
             raise ValueError("TimeoutException: Unable to locate [Scan Logsheet Barcode Option]")
@@ -86,10 +86,16 @@ class DriverHomePage:
     def scan_DO(self):
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Scan Customer DO Barcode'))).click()
-            Components.cancelButton(self)
-            self.driver.back()
+            self.component.cancelButton()
         
         except TimeoutException:
             raise ValueError("TimeoutException: Unable to locate [Scan Customer DO Barcode Option]")
         
+    def driverPage_est(self):
+        self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().className("android.widget.Button").instance(2)').click()
 
+        self.component.get_dockets()
+        self.component.nav_estDateTime()
+        
+        time.sleep(2)
+        
