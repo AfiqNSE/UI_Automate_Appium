@@ -1,2 +1,9 @@
 __pycache__/
 *.pyc
+
+#example file
+appium_iod.py
+appium_poc.py
+
+note.md
+node_modules
