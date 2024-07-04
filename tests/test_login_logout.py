@@ -6,7 +6,6 @@ from config import Config
 from pages.home_page import DriverHomePage, StaffHomePage
 from pages.login_page import LoginPage
 
-#TODO: Find a way to combine test for driver and staff
 class TestStaffLogin(unittest.TestCase):
     def test_Login(self):
         options = UiAutomator2Options().load_capabilities(Config.capabilities)

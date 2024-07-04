@@ -4,7 +4,6 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-
 from pages.home_page import DriverHomePage
 
 class InvalidIODPage:
@@ -21,6 +20,7 @@ class InvalidIODPage:
         if  self.get_invalidDocket() == True:
              self.review_pod()
              self.retake_pod()
+             
         else:
             self.driver.back()   
             
@@ -43,7 +43,7 @@ class InvalidIODPage:
             
         except TimeoutException:
             shows = False
-            raise ValueError("TimeoutException: No invalid iod available")
+            raise ValueError("TimeoutException: unable to located [Invalid IOD displayed]")
 
         return shows
     
@@ -57,7 +57,9 @@ class InvalidIODPage:
             self.driver.back()
             
         except TimeoutException:
-            raise ValueError("TimeoutException: No preview available")
+            raise ValueError("TimeoutException: unable to located [Review Button]")
+        
+        time.sleep(2)
 
     def retake_pod(self):
         self.driver.find_element(AppiumBy.XPATH, '//android.widget.Button[@content-desc="Retake"]').click()
@@ -69,5 +71,7 @@ class InvalidIODPage:
 
         except TimeoutException:
             raise ValueError("TimeoutException: Unable to locate [Confirm Upload]")
+        
+        time.sleep(2)
     
         

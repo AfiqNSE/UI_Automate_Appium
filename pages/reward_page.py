@@ -5,7 +5,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.action_chains import ActionChains
-
 from components.main_component import Components
 
 
@@ -17,10 +16,9 @@ class RewardPage:
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, "Reward").click()
 
     def load_rewardPage(self):
-        # self.redeem_slide()
-        # time.sleep(1)
+        self.redeem_slide()
         self.redeem_insert()
-        # self.driver.back()
+        self.driver.back()
             
     def check_point(self) -> bool:
         try:
@@ -58,6 +56,7 @@ class RewardPage:
             self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Dismiss').click()
             self.driver.back()
             self.refresh_button()
+            time.sleep(2)
             
         else:
             print("Not enough points to redeem")
@@ -76,6 +75,7 @@ class RewardPage:
             self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Dismiss').click()
             self.driver.back()
             self.refresh_button()
+            time.sleep(2)
             
         else:
             print("Not enough points to redeem")

@@ -4,7 +4,6 @@ from appium.webdriver.common.appiumby import AppiumBy
 from dotenv import load_dotenv
 
 
-#Testing class for Login
 class LoginPage:
     load_dotenv()
     staff_username = os.getenv("STAFF_USERNAME")

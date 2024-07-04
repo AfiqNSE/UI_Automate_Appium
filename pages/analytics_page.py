@@ -9,7 +9,6 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 #NOTE: KIV since v2.5 got issue
-# Testing part for Analytics
 class AnalyticsPage:
     #defining constructor  
     def __init__(self, driver: webdriver.Remote):
@@ -34,7 +33,8 @@ class AnalyticsPage:
         
         try:
             WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Analytics'))).click()
-            time.sleep(1)
+            time.sleep(2)
+            self.driver.back()
 
         except TimeoutException:
             raise ValueError("TimeoutException: Unable to locate [analytics]")
@@ -44,7 +44,7 @@ class AnalyticsPage:
         
         try:
             WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Analytics')))
-            time.sleep(1)
+            time.sleep(2)
             self.driver.back()
             
         except TimeoutException:

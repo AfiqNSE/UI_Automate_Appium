@@ -53,7 +53,6 @@ class LonghaulPage:
         DriverHomePage.load_driverHome(self)
         time.sleep(2)
 
-    #TODO: view preview
     def longhaul_viewDetails(self):
         self.component.nav_sideBar()
         self.nav_driver_longhaul()
@@ -64,6 +63,7 @@ class LonghaulPage:
     def nav_staff_longhaul(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Longhaul\nAcceptance').click()
         self.component.cancelButton()
+        time.sleep(2)
     
     #Longhaul navigation for driver
     def nav_driver_longhaul(self):
@@ -98,7 +98,9 @@ class LonghaulPage:
             self.component.submitButton()
         
         else:
-            self.driver.back()
+            for _ in range(2):
+                self.driver.back()  
+                 
             raise ValueError('\nNo longhaul number provided')
     
     def get_displayedLonghaul(self) -> bool:
@@ -133,7 +135,7 @@ class LonghaulPage:
                 self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Done').click()
                 
             except TimeoutException:
-                raise ValueError("TimeoutException: Unable to locate [shutter icon]")
+                raise ValueError("TimeoutException: Unable to locate [Shutter icon]")
     
         except TimeoutException:
             raise ValueError('TimeoutException: Unable to locate [Add photos]')
@@ -149,7 +151,7 @@ class LonghaulPage:
                 WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.LinearLayout[@content-desc="IMG_20240626_034459.jpg, 146 kB, Jun 26"]'))).click()
                 
             except TimeoutException:
-                raise ValueError("Timeout: Element (Image) did not appear within the expected time.")
+                raise ValueError("TimeoutException: unable to located [Image from gallery]")
             
         except TimeoutException:
             raise ValueError('TimeoutException: Unable to locate [Add photos]')

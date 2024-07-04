@@ -20,16 +20,16 @@ if __name__ == '__main__':
     driver_suite = unittest.TestSuite()
 
     #Staff Test
-    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffLogin))
-    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffHome))
-    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffLanguage))
-    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffLonghaul))
-    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffApprove))
-    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffSearch))
-    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffAssign))
-    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffAnalytics))
-    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffReport))
-    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffLogout))
+    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffLogin)) 
+    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffHome)) 
+    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffLanguage)) 
+    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffLonghaul)) 
+    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffApprove)) 
+    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffSearch)) 
+    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffAssign)) 
+    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffAnalytics)) 
+    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffReport)) 
+    staff_suite.addTests(loader.loadTestsFromTestCase(TestStaffLogout)) 
 
     
     #Driver Test
@@ -37,9 +37,9 @@ if __name__ == '__main__':
     driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverHome))
     driver_suite.addTests(loader.loadTestsFromTestCase(TestNotification)) 
     driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverLonghaul))
-    driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverSearch)) 
-    driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverAnalytics)) 
-    driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverInvalid)) 
+    driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverSearch))
+    driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverAnalytics))
+    driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverInvalid))
     driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverReward))
     driver_suite.addTests(loader.loadTestsFromTestCase(TestDriverLogout))
 

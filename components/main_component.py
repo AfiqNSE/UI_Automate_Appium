@@ -2,6 +2,7 @@ import os
 import time
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
+from dotenv import load_dotenv
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
@@ -9,6 +10,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 
 class Components:
+    load_dotenv()
     estDate = os.getenv("EST_DATE")
     estTime = os.getenv("EST_TIME")
     
@@ -32,16 +34,22 @@ class Components:
     
     #SideBar for driver page
     def nav_sideBar(self):
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Open navigation menu').click()
+        try:
+            WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Open navigation menu'))).click()
+        
+        except TimeoutException:
+            print("TimeoutException: Unable to locate [Navigation Menu]")
     
     #Logout button for staff
     def staff_logout(self):
         self.driver.find_element(AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.widget.Button[3]').click()
-
+        time.sleep(2)
+        
     #Logout button for driver
     def driver_logout(self):
         self.nav_sideBar()
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Logout').click()  
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Logout').click()
+        time.sleep(2)
         
     def nav_estDateTime(self):
         #NOTE: set single estDateTime docket
@@ -56,7 +64,7 @@ class Components:
         actions.w3c_actions.pointer_action.pointer_down()
         actions.w3c_actions.pointer_action.pointer_up()
         actions.perform()
-        
+                
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, self.estDate))).click()
             self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'OK').click()
@@ -80,6 +88,8 @@ class Components:
         self.submitButton()
         self.driver.back()
         
+        time.sleep(2)
+        
         # #NOTE: Set all est date time
         self.nav_selectMode(self.new_dockets)
         self.select_all()
@@ -95,6 +105,8 @@ class Components:
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Estimate arrival time\nSelect time').click()
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'PM').click()
         self.submitButton()
+        
+        time.sleep(2)
         
     def nav_viewSignature(self):
         self.get_displayedDetails()
@@ -209,7 +221,7 @@ class Components:
         ##Upload Do/Logsheet photo
         self.driver.find_element(AppiumBy.XPATH, '(//android.widget.Button[@content-desc="Take Photo"])[1]').click()
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Take Photos').click()
-        
+
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Shutter'))).click()
             self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Done').click()
@@ -277,7 +289,7 @@ class Components:
         except TimeoutException:
             raise ValueError("TimeoutException: Unable to locate [shutter icon]")
 
-        time.sleep(1)
+        time.sleep(2)
         
         #Upload attachment
         for _ in range(2):
@@ -312,7 +324,7 @@ class Components:
        
     #NOTE: Select All & Deselect All button
     def nav_selectMode(self, dockets):
-        element = self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, dockets[0])
+        element = WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, dockets[0])))
         self.driver.execute_script('mobile: longClickGesture', {'elementId': element.id})
         
     def select_all(self):
@@ -346,6 +358,8 @@ class Components:
             
         except TimeoutException:
             raise ValueError("Timeout: Elements (dockets) did not appear within the expected time.")
+        
+        time.sleep(2)
     
     #NOTE: Get details elements that been display at the UI
     def get_displayedDetails(self):
@@ -366,4 +380,7 @@ class Components:
                     
         except TimeoutException:
             raise ValueError("Timeout: Element (Docket Details) did not appear within the expected time.")
+        
+        time.sleep(2)
+
         
