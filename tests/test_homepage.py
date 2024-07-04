@@ -26,11 +26,8 @@ class TestDriverHome(unittest.TestCase):
         self.home_driver.load_driverHome()
         self.home_driver.logsheet_change()
         self.home_driver.option_button()
-        self.home_driver.scan_docket()
         self.home_driver.insert_docket()
-        self.home_driver.option_button()
-        self.home_driver.scan_logsheet()
-        self.home_driver.scan_DO()
+        self.home_driver.driverPage_est()
                 
         
 
