@@ -10,3 +10,7 @@ Appium has been created to test all of the core and additional features in the N
 
 ## Additional 
 - Install Appium Inspector for element detection for development.
+
+## How To Run?
+- Use the command `appium` to run the Appium server.
+- Use the command `python ./run_test.py` to run the Python file.
