@@ -1,15 +1,14 @@
 from typing import Any, Dict
 
 class Config:
-    appName = 'com.nse.project.nse_driver_flutter_app'
-    appActivity = '.MainActivity'
 
     capabilities: Dict[str, Any] = {
         'platformName': 'Android',
-        'automationName': "UiAutomator2",
+        'automationName': 'UiAutomator2',
         'deviceName': 'emulator-5554',
-        'appPackage': appName,
-        'appActivity': appActivity,
+        'avd': 'Pixel_6_Pro_API_33',
+        'appPackage': 'com.nse.project.nse_driver_flutter_app',
+        'appActivity': 'com.example.nse_driver_flutter_app.MainActivity',
         'noReset': 'true',
     }
 
