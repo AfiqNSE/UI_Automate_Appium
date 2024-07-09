@@ -2,6 +2,9 @@ import os
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
 from dotenv import load_dotenv
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 
 
 class LoginPage:
@@ -15,27 +18,27 @@ class LoginPage:
         self.driver = driver
 
     def enter_staff_username(self):
-        textfield = self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.widget.EditText[1]')
+        textfield = self.driver.find_element(AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.widget.EditText[1]')
         textfield.click()
         textfield.clear()
         textfield.send_keys(self.staff_username)
         self.driver.hide_keyboard()     
         
     def enter_driver_username(self):
-        textfield = self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.widget.EditText[1]')
+        textfield = self.driver.find_element(AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.widget.EditText[1]')
         textfield.click()
         textfield.clear()
         textfield.send_keys(self.driver_username)
         self.driver.hide_keyboard()   
         
     def enter_password(self):
-        textfield = self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.widget.EditText[2]')
+        textfield = self.driver.find_element(AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.widget.EditText[2]')
         textfield.click()
         textfield.clear()
         textfield.send_keys(self.password)
         self.driver.hide_keyboard()    
 
     def click_login(self):
-        self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.Button[@content-desc="Login"]').click()
+        self.driver.find_element(AppiumBy.XPATH, '//android.widget.Button[@content-desc="Login"]').click()
 
 

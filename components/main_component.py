@@ -23,11 +23,15 @@ class Components:
     #defining constructor  
     def __init__(self, driver: webdriver.Remote):
         self.driver = driver
-
+    
     #NOTE: This code is to use cancel button at UI
     def cancelButton(self):
         self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.Button[@resource-id="com.nse.project.nse_driver_flutter_app:id/btnBarcodeCaptureCancel"]').click()
     
+    #Back Button
+    def backButton(self):
+        self.driver.find_element(by=AppiumBy.XPATH, value='Back').click()
+
     #Submit button
     def submitButton(self):
         try:

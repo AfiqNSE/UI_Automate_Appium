@@ -17,7 +17,7 @@ class InvalidIODPage:
     
     #NOTE: The main process
     def load_invalidPage(self):
-        if  self.get_invalidDocket() == True:
+        if  self.get_invalidDocket() is True:
              self.review_pod()
              self.retake_pod()
              
@@ -66,21 +66,11 @@ class InvalidIODPage:
         
         try:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Shutter'))).click()
-            
-            try:
-                WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Done'))).click()
-            
-            except TimeoutException:
-                raise ValueError("TimeoutException: unable to located [Done Button]")
-            
-        except TimeoutException:
-            raise ValueError("TimeoutException: unable to located [Shutter Button]")
-
-        try:
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Done'))).click()
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Confirm Upload'))).click()
 
         except TimeoutException:
-            raise ValueError("TimeoutException: Unable to locate [Confirm Upload]")
+            raise ValueError("TimeoutException: Unable to locate some element in [Confirm Upload]")
         
         time.sleep(2)
     
