@@ -1,22 +1,18 @@
 import unittest
 from appium.options.android import UiAutomator2Options
 from appium import webdriver
-
 from components.main_component import Components
 from config import Config
-from pages.home_page import DriverHomePage
-from pages.invalid_page import InvalidIODPage
+from pages.iod.reward_page import RewardPage
 
-class TestDriverInvalid(unittest.TestCase):
+class TestDriverReward(unittest.TestCase):
     def setUp(self):
         options = UiAutomator2Options().load_capabilities(Config.capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
-        self.invalid_page = InvalidIODPage(self.driver)
+        self.reward = RewardPage(self.driver)
         self.component = Components(self.driver)
         
-    def test_invalid(self):
+    def test_reward(self):
         self.component.nav_sideBar()
-        self.invalid_page.nav_invalid()
-        self.invalid_page.load_invalidPage()
-
-      
+        self.reward.nav_reward()
+        self.reward.load_rewardPage()

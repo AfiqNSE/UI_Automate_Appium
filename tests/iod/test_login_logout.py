@@ -3,8 +3,8 @@ from appium.options.android import UiAutomator2Options
 from appium import webdriver
 from components.main_component import Components
 from config import Config
-from pages.home_page import DriverHomePage, StaffHomePage
-from pages.login_page import LoginPage
+from pages.iod.home_page import DriverHomePage, StaffHomePage
+from pages.iod.login_page import LoginPage
 
 class TestStaffLogin(unittest.TestCase):
     def test_Login(self):

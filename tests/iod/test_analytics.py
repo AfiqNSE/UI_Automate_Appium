@@ -4,7 +4,7 @@ from appium import webdriver
 
 from components.main_component import Components
 from config import Config
-from pages.analytics_page import AnalyticsPage
+from pages.iod.analytics_page import AnalyticsPage
 
 
 class TestStaffAnalytics(unittest.TestCase):

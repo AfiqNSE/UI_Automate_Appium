@@ -1,17 +1,17 @@
 import unittest
 from config import Config
-from tests.test_analytics import TestDriverAnalytics, TestStaffAnalytics
-from tests.test_approve import TestStaffApprove
-from tests.test_assign import TestStaffAssign
-from tests.test_invalid import TestDriverInvalid
-from tests.test_language import TestStaffLanguage, TestDriverLanguage
-from tests.test_login_logout import  TestDriverLogout, TestStaffLogin, TestDriverLogin, TestStaffLogout
-from tests.test_longhaul import TestStaffLonghaul, TestDriverLonghaul
-from tests.test_report import TestStaffReport
-from tests.test_reward import TestDriverReward
-from tests.test_search import TestDriverSearch, TestStaffSearch
-from tests.test_notification import TestNotification
-from tests.test_homepage import TestStaffHome, TestDriverHome
+from tests.iod.test_analytics import TestDriverAnalytics, TestStaffAnalytics
+from tests.iod.test_approve import TestStaffApprove
+from tests.iod.test_assign import TestStaffAssign
+from tests.iod.test_invalid import TestDriverInvalid
+from tests.iod.test_language import TestStaffLanguage, TestDriverLanguage
+from tests.iod.test_login_logout import  TestDriverLogout, TestStaffLogin, TestDriverLogin, TestStaffLogout
+from tests.iod.test_longhaul import TestStaffLonghaul, TestDriverLonghaul
+from tests.iod.test_report import TestStaffReport
+from tests.iod.test_reward import TestDriverReward
+from tests.iod.test_search import TestDriverSearch, TestStaffSearch
+from tests.iod.test_notification import TestNotification
+from tests.iod.test_homepage import TestStaffHome, TestDriverHome
 
 
 if __name__ == '__main__':
@@ -47,5 +47,4 @@ if __name__ == '__main__':
     unittest.TextTestRunner(verbosity=Config.VERBOSITY).run(staff_suite)
     unittest.TextTestRunner(verbosity=Config.VERBOSITY).run(driver_suite)
 
-    print("Test Done")
 

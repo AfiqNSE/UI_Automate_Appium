@@ -4,7 +4,7 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-from pages.home_page import DriverHomePage
+from pages.iod.home_page import DriverHomePage
 
 class InvalidIODPage:
     invalid_list = []

@@ -3,7 +3,7 @@ import unittest
 from appium.options.android import UiAutomator2Options
 from appium import webdriver
 from config import Config
-from pages.language_page import LanguagePage
+from pages.iod.language_page import LanguagePage
 
 class TestStaffLanguage(unittest.TestCase):
     def setUp(self):

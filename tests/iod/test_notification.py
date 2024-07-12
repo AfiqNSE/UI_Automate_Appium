@@ -1,15 +1,14 @@
 import unittest
 from appium.options.android import UiAutomator2Options
 from appium import webdriver
-
 from config import Config
-from pages.approve_page import ApproveRedeemPage
+from pages.iod.notification_page import NotificationPage
 
-class TestStaffApprove(unittest.TestCase):
-    def setUp(self):
+class TestNotification(unittest.TestCase):
+    def test_notification(self):
         options = UiAutomator2Options().load_capabilities(Config.capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
-        self.approve_page = ApproveRedeemPage(self.driver)
-
-    def test_approve(self):
-        self.approve_page.nav_redeem()
+        self.notification_page = NotificationPage(self.driver)
+        
+        self.notification_page.nav_notification()
+ 

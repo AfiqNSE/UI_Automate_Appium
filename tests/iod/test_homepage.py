@@ -2,7 +2,7 @@ import unittest
 from appium.options.android import UiAutomator2Options
 from appium import webdriver
 from config import Config
-from pages.home_page import DriverHomePage, StaffHomePage
+from pages.iod.home_page import DriverHomePage, StaffHomePage
 
 
 class TestStaffHome(unittest.TestCase):

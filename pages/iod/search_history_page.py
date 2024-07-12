@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from components.main_component import Components
-from pages.home_page import DriverHomePage, StaffHomePage
+from pages.iod.home_page import DriverHomePage, StaffHomePage
 
 
 #NOTE: Been used for search & history (Staff & Driver)

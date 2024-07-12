@@ -3,7 +3,7 @@ from appium import webdriver
 from config import Config
 from appium.options.android import UiAutomator2Options
 from components.main_component import Components
-from pages.longhaul_page import LonghaulPage
+from pages.iod.longhaul_page import LonghaulPage
 
 
 class TestStaffLonghaul(unittest.TestCase):

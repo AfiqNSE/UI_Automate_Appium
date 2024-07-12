@@ -8,7 +8,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from pages.home_page import DriverHomePage
+from pages.iod.home_page import DriverHomePage
 
 
 class LonghaulPage:

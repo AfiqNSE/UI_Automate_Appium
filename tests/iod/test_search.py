@@ -2,7 +2,7 @@ import unittest
 from appium.options.android import UiAutomator2Options
 from appium import webdriver
 from config import Config
-from pages.search_history_page import SearchHistoryPage
+from pages.iod.search_history_page import SearchHistoryPage
 
 class TestStaffSearch(unittest.TestCase):
     def setUp(self):

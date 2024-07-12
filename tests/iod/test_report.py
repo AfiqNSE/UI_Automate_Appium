@@ -2,7 +2,7 @@ import unittest
 from appium.options.android import UiAutomator2Options
 from appium import webdriver
 from config import Config
-from pages.report_page import ReportsPage
+from pages.iod.report_page import ReportsPage
 
 
 class TestStaffReport(unittest.TestCase):
