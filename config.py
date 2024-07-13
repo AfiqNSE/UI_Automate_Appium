@@ -2,13 +2,23 @@ from typing import Any, Dict
 
 class Config:
 
-    capabilities: Dict[str, Any] = {
+    iod_capabilities: Dict[str, Any] = {
         'platformName': 'Android',
         'automationName': 'UiAutomator2',
         'deviceName': 'emulator-5554',
         'avd': 'Pixel_6_Pro_API_33',
         'appPackage': 'com.nse.project.nse_driver_flutter_app',
         'appActivity': 'com.example.nse_driver_flutter_app.MainActivity',
+        'noReset': 'true',
+    }
+    
+    oms_capabilities: Dict[str, Any] = {
+        'platformName': 'Android',
+        'automationName': 'UiAutomator2',
+        'deviceName': 'emulator-5554',
+        'avd': 'Pixel_6_Pro_API_33',
+        'appPackage': 'com.nse.oms',
+        'appActivity': '.MainActivity',
         'noReset': 'true',
     }
 
