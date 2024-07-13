@@ -7,7 +7,7 @@ from pages.iod.approve_page import ApproveRedeemPage
 
 class TestStaffApprove(unittest.TestCase):
     def setUp(self):
-        options = UiAutomator2Options().load_capabilities(Config.capabilities)
+        options = UiAutomator2Options().load_capabilities(Config.iod_capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
         self.approve_page = ApproveRedeemPage(self.driver)
 

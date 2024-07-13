@@ -7,7 +7,7 @@ from pages.iod.home_page import DriverHomePage, StaffHomePage
 
 class TestStaffHome(unittest.TestCase):
     def setUp(self):
-        options = UiAutomator2Options().load_capabilities(Config.capabilities)
+        options = UiAutomator2Options().load_capabilities(Config.iod_capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
         self.home_staff = StaffHomePage(self.driver)
     
@@ -18,7 +18,7 @@ class TestStaffHome(unittest.TestCase):
 
 class TestDriverHome(unittest.TestCase):
     def setUp(self):
-        options = UiAutomator2Options().load_capabilities(Config.capabilities)
+        options = UiAutomator2Options().load_capabilities(Config.iod_capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
         self.home_driver = DriverHomePage(self.driver)  
              

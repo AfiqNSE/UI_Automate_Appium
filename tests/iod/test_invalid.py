@@ -9,7 +9,7 @@ from pages.iod.invalid_page import InvalidIODPage
 
 class TestDriverInvalid(unittest.TestCase):
     def setUp(self):
-        options = UiAutomator2Options().load_capabilities(Config.capabilities)
+        options = UiAutomator2Options().load_capabilities(Config.iod_capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
         self.invalid_page = InvalidIODPage(self.driver)
         self.component = Components(self.driver)

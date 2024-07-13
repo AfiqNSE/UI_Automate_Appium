@@ -7,7 +7,7 @@ from pages.iod.reward_page import RewardPage
 
 class TestDriverReward(unittest.TestCase):
     def setUp(self):
-        options = UiAutomator2Options().load_capabilities(Config.capabilities)
+        options = UiAutomator2Options().load_capabilities(Config.iod_capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
         self.reward = RewardPage(self.driver)
         self.component = Components(self.driver)

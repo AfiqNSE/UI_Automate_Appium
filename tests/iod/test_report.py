@@ -7,7 +7,7 @@ from pages.iod.report_page import ReportsPage
 
 class TestStaffReport(unittest.TestCase):
     def setUp(self):
-        options = UiAutomator2Options().load_capabilities(Config.capabilities)
+        options = UiAutomator2Options().load_capabilities(Config.iod_capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
         self.report_page = ReportsPage(self.driver)
         

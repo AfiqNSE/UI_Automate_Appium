@@ -7,7 +7,7 @@ from pages.iod.assign_page import AssignPointPage
 
 class TestStaffAssign(unittest.TestCase):
     def setUp(self):
-        options = UiAutomator2Options().load_capabilities(Config.capabilities)
+        options = UiAutomator2Options().load_capabilities(Config.iod_capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
         self.assign_page = AssignPointPage(self.driver)
 

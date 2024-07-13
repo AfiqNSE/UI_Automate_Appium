@@ -48,17 +48,7 @@ class Components:
         except TimeoutException:
             print("TimeoutException: Unable to locate [Navigation Menu]")
     
-    #Logout button for staff
-    def staff_logout(self):
-        self.driver.find_element(AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.widget.Button[3]').click()
-        time.sleep(2)
-        
-    #Logout button for driver
-    def driver_logout(self):
-        self.nav_sideBar()
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Logout').click()
-        time.sleep(2)
-        
+
     def nav_estDateTime(self):
         #NOTE: set single estDateTime docket
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, self.new_dockets[0]).click()

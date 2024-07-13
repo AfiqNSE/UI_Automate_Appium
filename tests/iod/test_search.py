@@ -6,7 +6,7 @@ from pages.iod.search_history_page import SearchHistoryPage
 
 class TestStaffSearch(unittest.TestCase):
     def setUp(self):
-        options = UiAutomator2Options().load_capabilities(Config.capabilities)
+        options = UiAutomator2Options().load_capabilities(Config.iod_capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
         self.search_page = SearchHistoryPage(self.driver)
 
@@ -21,7 +21,7 @@ class TestStaffSearch(unittest.TestCase):
 
 class TestDriverSearch(unittest.TestCase):
     def setUp(self):
-        options = UiAutomator2Options().load_capabilities(Config.capabilities)
+        options = UiAutomator2Options().load_capabilities(Config.iod_capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
         self.search_page = SearchHistoryPage(self.driver)
                 

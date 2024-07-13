@@ -8,7 +8,7 @@ from pages.iod.longhaul_page import LonghaulPage
 
 class TestStaffLonghaul(unittest.TestCase):
     def setUp(self):
-        options = UiAutomator2Options().load_capabilities(Config.capabilities)
+        options = UiAutomator2Options().load_capabilities(Config.iod_capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
         self.longhaul_staff = LonghaulPage(self.driver)
 
@@ -18,7 +18,7 @@ class TestStaffLonghaul(unittest.TestCase):
 
 class TestDriverLonghaul(unittest.TestCase):
     def setUp(self):
-        options = UiAutomator2Options().load_capabilities(Config.capabilities)
+        options = UiAutomator2Options().load_capabilities(Config.iod_capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
         self.longhaul_driver = LonghaulPage(self.driver)
 

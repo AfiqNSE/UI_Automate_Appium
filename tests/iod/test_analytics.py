@@ -9,7 +9,7 @@ from pages.iod.analytics_page import AnalyticsPage
 
 class TestStaffAnalytics(unittest.TestCase):
     def setUp(self):
-        options = UiAutomator2Options().load_capabilities(Config.capabilities)
+        options = UiAutomator2Options().load_capabilities(Config.iod_capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
         self.analytics_staff = AnalyticsPage(self.driver)
  
@@ -19,7 +19,7 @@ class TestStaffAnalytics(unittest.TestCase):
 
 class TestDriverAnalytics(unittest.TestCase):
     def setUp(self):
-        options = UiAutomator2Options().load_capabilities(Config.capabilities)
+        options = UiAutomator2Options().load_capabilities(Config.iod_capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
         self.analytics_driver = AnalyticsPage(self.driver)
         self.component = Components(self.driver)

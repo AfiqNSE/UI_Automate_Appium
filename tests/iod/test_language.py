@@ -7,7 +7,7 @@ from pages.iod.language_page import LanguagePage
 
 class TestStaffLanguage(unittest.TestCase):
     def setUp(self):
-        options = UiAutomator2Options().load_capabilities(Config.capabilities)
+        options = UiAutomator2Options().load_capabilities(Config.iod_capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
         self.language_page = LanguagePage(self.driver)
 
@@ -21,7 +21,7 @@ class TestStaffLanguage(unittest.TestCase):
 #K.I.V untuk driver 
 class TestDriverLanguage(unittest.TestCase):
     def setUp(self):
-        options = UiAutomator2Options().load_capabilities(Config.capabilities)
+        options = UiAutomator2Options().load_capabilities(Config.iod_capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
         self.language_page = LanguagePage(self.driver)
 
