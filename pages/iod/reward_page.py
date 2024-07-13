@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.action_chains import ActionChains
-from components.main_component import Components
+from components.iod_component import IODComponents
 
 
 class RewardPage:
@@ -68,7 +68,7 @@ class RewardPage:
             
             self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'ENTER AMOUNT').click()
             self.driver.find_element(AppiumBy.XPATH, '//android.widget.EditText').send_keys('500')        
-            Components.submitButton(self)
+            IODComponents.submitButton(self)
                 
             self.redeem_button()
             time.sleep(1)

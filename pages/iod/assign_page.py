@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-from components.main_component import Components
+from components.iod_component import IODComponents
 
 
 class AssignPointPage:
@@ -17,7 +17,7 @@ class AssignPointPage:
     #defining constructor  
     def __init__(self, driver: webdriver.Remote):
         self.driver = driver
-        self.component = Components(self.driver)
+        self.component = IODComponents(self.driver)
 
     def nav_assignPoint(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Assign\nPoints').click()

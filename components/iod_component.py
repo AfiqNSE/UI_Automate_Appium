@@ -9,7 +9,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.action_chains import ActionChains
 
 
-class Components:
+class IODComponents:
     load_dotenv()
     estDate = os.getenv("EST_DATE")
     estTime = os.getenv("EST_TIME")

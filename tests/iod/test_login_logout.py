@@ -3,7 +3,6 @@ import unittest
 from appium.options.android import UiAutomator2Options
 from appium import webdriver
 from dotenv import load_dotenv
-from components.main_component import Components
 from config import Config
 from pages.iod.home_page import DriverHomePage, StaffHomePage
 from pages.iod.login_page import IODLoginPage
