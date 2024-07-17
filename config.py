@@ -16,7 +16,7 @@ class Config:
         'platformName': 'Android',
         'automationName': 'UiAutomator2',
         'deviceName': 'emulator-5554',
-        'avd': 'Pixel_6_Pro_API_33',
+        'avd': 'Pixel_4_API_30',
         'appPackage': 'com.nse.oms',
         'appActivity': '.MainActivity',
         'noReset': 'true',
