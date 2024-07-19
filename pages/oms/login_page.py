@@ -6,7 +6,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 class OMSLoginPage:
-
     def __init__(self, driver: webdriver.Remote) -> None:
         self.driver = driver
         
@@ -32,8 +31,11 @@ class OMSLoginPage:
         except TimeoutException:
             print("TimeoutEception: Unable to locate element [password textfield]")
             
-    def click_login(self):
+    def click_login(self):  
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Login').click()
+        
         try:
-            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Login').click()
+            WebDriverWait(self.driver,20).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Home, Tab 1 of 5')))
+            
         except TimeoutException:
-            print("TimeoutEception: Unable to locate element [login button]")
+            print("TimeoutEception: Unable to locate element [Home]")

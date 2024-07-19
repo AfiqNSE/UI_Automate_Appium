@@ -37,7 +37,7 @@ class DriverHomePage:
         self.component = IODComponents(self.driver)
 
     def driver_logout(self):
-        self.nav_sideBar()
+        self.component.nav_sideBar()
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Logout').click()
         time.sleep(2)
     

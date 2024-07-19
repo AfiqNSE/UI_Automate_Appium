@@ -44,7 +44,7 @@ class OMSUserPage:
             self.driver.back()
             
         except TimeoutException:
-            return('TimeoutException: Cannot find add user button')
+            return('TimeoutException: Cannot find [add user button]')
             
         except Exception as e:
             self.driver.back()
@@ -69,7 +69,7 @@ class OMSUserPage:
             self.driver.back()
             
         except TimeoutException:
-            return('TimeoutException: Cannot find add user button')
+            return('TimeoutException: Cannot find [add user button]')
             
         except Exception as e:
             self.driver.back()
@@ -97,7 +97,7 @@ class OMSUserPage:
             self.driver.back()
             
         except TimeoutException:
-            return('TimeoutException: Cannot find add user button')
+            return('TimeoutException: Cannot find [add user button]')
             
         except Exception as e:
             self.driver.back()
@@ -125,7 +125,7 @@ class OMSUserPage:
             self.driver.back()
             
         except TimeoutException:
-            return('TimeoutException: Cannot find add user button')
+            return('TimeoutException: Cannot find [add user button]')
             
         except Exception as e:
             self.driver.back()
@@ -157,7 +157,7 @@ class OMSUserPage:
             time.sleep(2)
             
         except TimeoutException:
-            return('TimeoutException [User]: Cannot find add user button')
+            return('TimeoutException [User]: Cannot find [add user button]')
             
         except Exception as e:
             self.driver.back()
@@ -174,8 +174,10 @@ class OMSUserPage:
             self.driver.find_element(AppiumBy.XPATH, '//android.widget.Button[@content-desc="Submit"]').click()
             time.sleep(2)
 
+            #NOTE: Check error message
             try: 
-                el = WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '(//android.view.View[@content-desc="Username has already been used, please enter a new username"])[2]')))  
+                el = WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '(//android.view.View[@content-desc="Username has already been used, please enter a new username"])[1]')))  
+                
                 if el.is_displayed():
                     self.driver.back()
                 
@@ -243,10 +245,9 @@ class OMSUserPage:
     def nav_deleteUser(self) -> str:
         user_list = ["Appium SuperAdmin", "Appium AccAdmin", "Appium UserAdmin", "Appium AccUser", "Appium User"]
         try:
-            WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[1]/android.widget.Button[1]'))).click()     
-            time.sleep(1)
-            
             for i in user_list:
+                WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[1]/android.widget.Button[1]'))).click()     
+            
                 element = WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.EditText')))
                 element.click()
                 element.clear()
@@ -279,10 +280,11 @@ class OMSUserPage:
                 self.driver.find_element(AppiumBy.XPATH, '//android.widget.Button[@content-desc="Yes"]').click()
                 time.sleep(2)
             
-            #Go Back and refresh page
-            self.driver.find_element(AppiumBy.XPATH, '//android.widget.Button[@content-desc="Cancel"]').click()
-            self.component.refresh_page()
-         
+                #Go Back and refresh page
+                self.driver.find_element(AppiumBy.XPATH, '//android.widget.Button[@content-desc="Cancel"]').click()
+                self.component.refresh_page()
+                time.sleep(2)
+            
         except TimeoutException:
             return("TimeoutException [Delete User]: Unable to locate element [Search button]")
                
@@ -313,9 +315,11 @@ class OMSUserPage:
                 self.driver.find_element(AppiumBy.XPATH, '//android.widget.Button[@content-desc="Cancel"]').click()
                 
                 if len(self.user_list) < 5:
-                    return("Error [Search]: Only [", len(self.user_list), "] users detected" )
+                    self.driver.find_element(AppiumBy.XPATH, '//android.widget.Button[@content-desc="Cancel"]').click()
+                    return("Error [Search]: Only [" + len(self.user_list) + "] users detected" )
                        
             except TimeoutException:
+                self.driver.find_element(AppiumBy.XPATH, '//android.widget.Button[@content-desc="Cancel"]').click()
                 return("TimeoutException [Search]: Unable to locate element [User list]" )
             
         except TimeoutException:
@@ -326,27 +330,23 @@ class OMSUserPage:
             #Display Name
             displayName = WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[2]/android.widget.EditText[1]')))
             displayName.click()
-            time.sleep(2)
             displayName.send_keys(_displayName)
             self.driver.hide_keyboard()
             
             #User Name
             userName = WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[2]/android.widget.EditText[2]')))
-            time.sleep(2)
             userName.click()
             userName.send_keys(_userName)
             self.driver.hide_keyboard()
             
             #Password
             password = WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[2]/android.widget.EditText[3]')))
-            time.sleep(2)
             password.click()
             password.send_keys(self.password)
             self.driver.hide_keyboard()
             
             #Confirm Passowrd
             cPassword = WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[2]/android.widget.EditText[4]')))
-            time.sleep(2)
             cPassword.click()
             cPassword.send_keys(self.password)
             self.driver.hide_keyboard()
@@ -369,8 +369,9 @@ class OMSUserPage:
             #Company
             WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[2]/android.widget.EditText[6]/android.widget.Button[2]'))).click()
             
-            companies = self.component.get_company()
-            if companies is None: return('Error: Unable to get the list of company')
+            #Get company list
+            companies = self.component.get_company(page='users')
+            if len(companies) == 0: return('Error: Unable to get the list of company')
             
             baseTxt = '(//android.view.View[@content-desc="company"])[2]'
             xpath = baseTxt.replace("company", companies[0])
@@ -385,9 +386,10 @@ class OMSUserPage:
         try:
             #Dealer
             WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.view.View[@content-desc="Select"]/android.widget.Button'))).click()
-            dealers = self.component.get_dealer()
             
-            if dealers is None: return('Error: Unable to get the list of dealer')
+            #Get dealer list
+            dealers = self.component.get_dealer(page='users') 
+            if len(dealers) == 0: return('Error: Unable to get the list of dealer')
             
             WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, dealers[0]))).click()
             time.sleep(2)
@@ -400,9 +402,9 @@ class OMSUserPage:
             #Branch
             WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[2]/android.widget.EditText[7]/android.widget.Button[2]'))).click()
             
-            branches = self.component.get_branch()
-            
-            if branches is None: return('Error: Unable to get the list of branch')
+            #Get branch list
+            branches = self.component.get_branch(page='users')
+            if len(branches) == 0: return('Error: Unable to get the list of branch')
             
             WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, branches[0]))).click()
             time.sleep(2)

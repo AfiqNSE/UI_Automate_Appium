@@ -6,7 +6,6 @@ from config import Config
 from pages.oms.user_page import OMSUserPage
 
 class TestOMSUser(unittest.TestCase):
-    
     def setUp(self):
         options = UiAutomator2Options().load_capabilities(Config.oms_capabilities)
         self.driver = webdriver.Remote(Config.appium_server_url, options=options)
@@ -41,9 +40,9 @@ class TestOMSUser(unittest.TestCase):
             self.errorList.append(err)
         
         if len(self.errorList) > 0:
-            print("\n [", len(self.errorList), "] Error Detected:")
+            print("\n [", len(self.errorList), "] Error/Alert Detected:")
             for error in self.errorList:
-                print("\nError: ", error)
+                print(error)
     
     #Search created users
     def test_searchUser(self):
@@ -52,9 +51,9 @@ class TestOMSUser(unittest.TestCase):
             self.errorList.append(err)
         
         if len(self.errorList) > 0:
-            print("\n [", len(self.errorList), "] Error Detected:")
+            print("\n [", len(self.errorList), "] Error/Alert Detected:")
             for error in self.errorList:
-                print("\nError: ", error)
+                print(error)
     
     #Test create existing user            
     def test_existingUser(self):
@@ -63,9 +62,9 @@ class TestOMSUser(unittest.TestCase):
             self.errorList.append(err)
         
         if len(self.errorList) > 0:
-            print("\n [", len(self.errorList), "] Error Detected:")
+            print("\n [", len(self.errorList), "] Error/Alert Detected:")
             for error in self.errorList:
-                print("\nError: ", error)
+                print(error)
 
     #Edit created user
     def test_editUser(self):
@@ -74,9 +73,9 @@ class TestOMSUser(unittest.TestCase):
             self.errorList.append(err)
             
         if len(self.errorList) > 0:
-            print("\n [", len(self.errorList), "] Error Detected:")
+            print("\n [", len(self.errorList), "] Error/Alert Detected:")
             for error in self.errorList:
-                print("\nError: ", error)
+                print(error)
     
     #Delete created user       
     def test_deleteUser(self):
@@ -85,9 +84,9 @@ class TestOMSUser(unittest.TestCase):
             self.errorList.append(err)
             
         if len(self.errorList) > 0:
-            print("\n [", len(self.errorList), "] Error Detected:")
+            print("\n [", len(self.errorList), "] Error/Alert Detected:")
             for error in self.errorList:
-                print("\nError: ", error)
+                print(error)
     
     def tearDown(self):
         self.driver.quit()   
