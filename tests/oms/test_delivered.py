@@ -13,28 +13,38 @@ class TestOMSDelivered(unittest.TestCase):
         self.delivered_page = OMSDeliveredPage(self.driver)
         self.component = OMSComponents(self.driver)
         
-    def test_delivered(self):
+    def test_viewDelivered(self):
         #Nav to delivered tab
         self.component.nav_delivered()
         
-        #Start Testing
-        err = self.delivered_page.nav_search()
+        err = self.delivered_page.nav_viewOrder()
         if err != None:
             self.errorList.append(err)
-        
+            
         err = self.delivered_page.nav_filter()
-        if err != None:
-            self.errorList.append(err)
-        
-        err = self.delivered_page.nav_order()
         if err != None:
             self.errorList.append(err)
             
         #Check error list
         if len(self.errorList) > 0:
-            print("\n [", len(self.errorList), "] Error Detected:")
+            print("\n [", len(self.errorList), "] Error/Alert Detected:")
             for error in self.errorList:
-                print("\nError: ", error)
+                print(error)
+            
+    def test_rejectOrder(self):
+        err = self.delivered_page.nav_rejectAll()
+        if err != None:
+            self.errorList.append(err)
+            
+        err = self.delivered_page.nav_rejectPartial()
+        if err != None:
+            self.errorList.append(err)
+            
+        #Check error list
+        if len(self.errorList) > 0:
+            print("\n [", len(self.errorList), "] Error/Alert Detected:")
+            for error in self.errorList:
+                print(error)
 
     def tearDown(self):
         self.driver.quit()    
