@@ -4,12 +4,30 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from components.oms_component import OMSComponents
 
 class OMSHomePage:
     def __init__(self, driver: webdriver.Remote):
         self.driver = driver
+        self.component = OMSComponents(self.driver)
         self.list_order = []
+
+    def nav_viewOrder(self) -> str:
+        #Get orders
+        orders = self.component.get_viewOrder()
+        if len(orders) == 0: 
+            return('Error: Empty order')
         
+        if len(orders) > 0:
+            try:
+                WebDriverWait(self.driver,20).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, orders[0]))).click()
+                time.sleep(2)
+                
+                self.driver.back()
+                
+            except TimeoutException:
+                return("TimeoutException: Unable to locate element [Specific delivered order]")
+    
     def nav_scan(self) -> str:
         try:
             WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.Button[@content-desc="Scan Delivery Order"]'))).click()     
@@ -20,7 +38,7 @@ class OMSHomePage:
         except TimeoutException:
             return("TimeoutException: Unable to locate element [Home nav button]")
             
-    def nav_search(self) -> str:
+    def nav_searchOrder(self) -> str:
         try:
             WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[1]/android.widget.Button[2]'))).click()
             time.sleep(1)
@@ -31,18 +49,21 @@ class OMSHomePage:
             self.driver.press_keycode(66)
             
             #Get order
-            self.get_orders()
-            time.sleep(2)
+            orders = self.component.get_searchOrder()
+            if len(orders) == 0: 
+                self.driver.back()
+                return('Error: Empty order')
             
-            if len(self.list_order) > 0:
+            if len(orders) > 0:
                 try:
-                    WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, self.list_order[0]))).click()
+                    WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, orders[0]))).click()
                     time.sleep(2)
                     
                     for _ in range(2):
                         self.driver.back()
                     
                 except TimeoutException:
+                    self.driver.back()
                     return("TimeoutException: Unable to locate element [Order list]")
             
         except TimeoutException:
@@ -96,49 +117,16 @@ class OMSHomePage:
         except TimeoutException:
             return("TimeoutException: Unable to locate element [Company filter button]")
     
-    #TODO: Need to update oms BE
+    #TODO: Need to choose date [future work]
     def date_filter(self) -> str:
         try:
-            WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.Button[@content-desc="All Date"]'))).click()     
+            WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.Button[@content-desc="All Date"]'))).click()                 
+            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Apply').click()
             time.sleep(2)
             
-            self.driver.back()
+            self.driver.find_element(AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.widget.Button').click()
 
         except TimeoutException:
             return("TimeoutException: Unable to locate element [Date filter button]")
-    
-    def nav_order(self) -> str:
-        #Get orders
-        self.get_orders()
-        time.sleep(3)
-           
-        if len(self.list_order) > 0:
-            try:
-                WebDriverWait(self.driver,20).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, self.list_order[0]))).click()
-                time.sleep(2)
-                
-                self.driver.back()
-                
-            except TimeoutException:
-                return("TimeoutException: Unable to locate element [Specific order]")
-    
-    def get_orders(self) -> str:
-        try:
-            #Wait for the element to shows up
-            WebDriverWait(self.driver,20).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.view.View[starts-with(@content-desc, "801")]')))
-            
-            #Get the elements
-            all_items = self.driver.find_elements(AppiumBy.XPATH, '//android.view.View[starts-with(@content-desc, "801")]')
-            
-            self.list_order = []
-            for item in all_items:
-                if item.is_displayed():
-                    self.list_order.append(item.get_attribute('content-desc'))
-            
-            # print(len(self.list_order))
-            
-        except TimeoutException:
-            return("TimeoutException: Unable to locate element [Order list]")
-    
 
     
