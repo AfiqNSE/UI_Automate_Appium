@@ -22,7 +22,7 @@ class OMSUserPage:
         self.userName_accUser = os.getenv("USERNAME_ACCUSER")
         self.displayName_user = os.getenv("DISPLAYNAME_USER")
         self.userName_user = os.getenv("USERNAME_USER")
-        self.password = os.getenv("PASSWORD")
+        self.password = os.getenv("OMS_PASSWORD")
         self.searchDisplayName = os.getenv("SEARCH_DISPLAYNAME")
         self.driver = driver
         self.component = OMSComponents(self.driver)

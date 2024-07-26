@@ -1,11 +1,5 @@
-import os
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
-from dotenv import load_dotenv
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
-
 
 class IODLoginPage:
     #defining constructor  

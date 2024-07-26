@@ -33,13 +33,7 @@ class TestOMSRejection(unittest.TestCase):
     
     def test_closeReject(self):
         err = self.rejection_page.nav_closeReject()
-        if err != None: 
-            self.errorList.append(err)
-            
-        if len(self.errorList) > 0:
-            print("\n [", len(self.errorList), "] Error/Alert Detected:")
-            for error in self.errorList:
-                print(error)
+        if err != None: print("\nError/Alert Detected:", err)
     
     def tearDown(self):
         self.driver.quit()

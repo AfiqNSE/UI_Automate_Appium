@@ -47,46 +47,22 @@ class TestOMSUser(unittest.TestCase):
     #Search created users
     def test_searchUser(self):
         err = self.user_page.nav_search()
-        if err != None:
-            self.errorList.append(err)
-        
-        if len(self.errorList) > 0:
-            print("\n [", len(self.errorList), "] Error/Alert Detected:")
-            for error in self.errorList:
-                print(error)
+        if err != None: print("\nError/Alert Detected:", err)
     
     #Test create existing user            
     def test_existingUser(self):
         err = self.user_page.create_existingUser()
-        if err != None:
-            self.errorList.append(err)
-        
-        if len(self.errorList) > 0:
-            print("\n [", len(self.errorList), "] Error/Alert Detected:")
-            for error in self.errorList:
-                print(error)
+        if err != None: print("\nError/Alert Detected:", err)
 
     #Edit created user
     def test_editUser(self):
         err = self.user_page.nav_editUser()
-        if err != None:
-            self.errorList.append(err)
-            
-        if len(self.errorList) > 0:
-            print("\n [", len(self.errorList), "] Error/Alert Detected:")
-            for error in self.errorList:
-                print(error)
+        if err != None: print("\nError/Alert Detected:", err)
     
     #Delete created user       
     def test_deleteUser(self):
         err = self.user_page.nav_deleteUser()
-        if err != None:
-            self.errorList.append(err)
-            
-        if len(self.errorList) > 0:
-            print("\n [", len(self.errorList), "] Error/Alert Detected:")
-            for error in self.errorList:
-                print(error)
+        if err != None: print("\nError/Alert Detected:", err)
     
     def tearDown(self):
         self.driver.quit()   

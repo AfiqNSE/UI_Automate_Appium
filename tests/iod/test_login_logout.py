@@ -36,7 +36,7 @@ class TestIODLoginLogout(BaseTest):
         load_dotenv()
         self.staff_username = os.getenv("STAFF_USERNAME")
         self.driver_username = os.getenv('DRIVER_USERNAME')
-        self.password = os.getenv("PASSWORD")
+        self.password = os.getenv("IOD_PASSWORD")
         self.user_type = user_type
         
     def test_Login(self):
@@ -44,14 +44,17 @@ class TestIODLoginLogout(BaseTest):
             self.login_page.enter_username(self.staff_username)
         elif self.user_type == 'driver':
             self.login_page.enter_username(self.driver_username)
-            
+        
         self.login_page.enter_password(self.password)
         self.login_page.click_login()
         
         if self.user_type == 'staff':
-            self.staff_home.load_staffHome()
+            err = self.staff_home.load_staffHome()
+            if err != None: print("\nError/Alert Detected:", err)
+            
         elif self.user_type == 'driver':
-            self.driver_home.load_driverHome()
+            err = self.driver_home.load_driverHome()
+            if err != None: print("\nError/Alert Detected:", err)
             
     def test_Logout(self):
         if self.user_type == 'staff':
