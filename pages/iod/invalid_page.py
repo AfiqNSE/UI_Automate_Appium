@@ -4,29 +4,79 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from components.iod_component import IODComponents
 from pages.iod.home_page import DriverHomePage
 
 class InvalidIODPage:
-    invalid_list = []
-    
     def __init__(self, driver: webdriver.Remote):
         self.driver = driver
-    
+        self.component = IODComponents(self.driver)
+        
     def nav_invalid(self):
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, "Invalid IOD").click()
+        err = self.component.nav_sideBar()
+        if err != None: return(err)
+        
+        try:
+            #Navigate to inavlid page
+            WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, "Invalid IOD"))).click()
+            
+        except TimeoutException:
+            self.driver.back()
+            return("TimeoutException: Unable to locate element [Invalid IOD button]")
     
-    #NOTE: The main process
-    def load_invalidPage(self):
-        if  self.get_invalidDocket() is True:
-             self.review_pod()
-             self.retake_pod()
-             
-        else:
-            self.driver.back()   
+    def nav_mainFeatures(self) -> str:
+        try:
+            dockets = self.get_invalidDocket()
             
-        DriverHomePage.load_driverHome(self)
+            if len(dockets) > 0:
+                
+                try:
+                    WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, dockets[0]))).click()
+
+                    err = self.review_pod()
+                    if err != None: return(err)
+                    
+                    err = self.retake_pod()
+                    if err != None: return(err)
+                    
+                except TimeoutException:
+                    return("TimeoutException: Unable to locate element [Specific invalid docket]")  
+                
+            else:
+                self.driver.back()
+                return("Alert: Empty invalid iod list")
             
-    def get_invalidDocket(self) -> bool:
+            DriverHomePage.load_driverHome(self)
+            
+        except TimeoutException:
+            return("TimeoutException: Unable to locate element [Invalid IOD button]")
+            
+    def review_pod(self) -> str:
+        try: 
+            self.driver.find_element(AppiumBy.XPATH, '//android.widget.Button[@content-desc="Preview"]').click()
+            
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.view.View[starts-with(@content-desc, "JD3")]')))
+            time.sleep(2)
+            self.driver.back()
+            time.sleep(2)
+            
+        except TimeoutException:
+            return("TimeoutException: unable to located [Review Button]")
+        
+    def retake_pod(self) -> str: 
+        try:
+            self.driver.find_element(AppiumBy.XPATH, '//android.widget.Button[@content-desc="Retake"]').click()
+            
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Shutter'))).click()
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Done'))).click()
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Confirm Upload'))).click()
+            
+            time.sleep(2)
+
+        except TimeoutException:
+            return("TimeoutException: Unable to locate some element in [Confirm Upload]")
+        
+    def get_invalidDocket(self) -> list:
         try:
             #Wait for the element to shows up
             WebDriverWait(self.driver,20).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.view.View[starts-with(@content-desc, "JD3")]')))
@@ -34,44 +84,14 @@ class InvalidIODPage:
             #Get the elements
             all_items = self.driver.find_elements(AppiumBy.XPATH, '//android.view.View[starts-with(@content-desc, "JD3")]')
             
+            invalid_list = []
             for item in all_items:
                 if item.is_displayed():
                     docket = item.get_attribute('content-desc')
-                    self.invalid_list.append(docket)
+                    invalid_list.append(docket)
                                 
-            shows = True
-            
+            return invalid_list
         except TimeoutException:
-            shows = False
-            raise ValueError("TimeoutException: unable to located [Invalid IOD displayed]")
-
-        return shows
-    
-    def review_pod(self):
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, self.invalid_list[0]).click()
-        self.driver.find_element(AppiumBy.XPATH, '//android.widget.Button[@content-desc="Preview"]').click()
-        
-        try:
-            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.view.View[starts-with(@content-desc, "JD3")]')))
-            time.sleep(1)
-            self.driver.back()
-            
-        except TimeoutException:
-            raise ValueError("TimeoutException: unable to located [Review Button]")
-        
-        time.sleep(2)
-
-    def retake_pod(self):
-        self.driver.find_element(AppiumBy.XPATH, '//android.widget.Button[@content-desc="Retake"]').click()
-        
-        try:
-            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Shutter'))).click()
-            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Done'))).click()
-            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Confirm Upload'))).click()
-
-        except TimeoutException:
-            raise ValueError("TimeoutException: Unable to locate some element in [Confirm Upload]")
-        
-        time.sleep(2)
+            return []
     
         
