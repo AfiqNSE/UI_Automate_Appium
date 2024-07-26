@@ -10,186 +10,553 @@ from components.iod_component import IODComponents
 from pages.iod.home_page import DriverHomePage, StaffHomePage
 
 
-#NOTE: Been used for search & history (Staff & Driver)
 class SearchHistoryPage:
-    load_dotenv()
-    logsheetNo = os.getenv("SEARCH_LOGSHEETNO")
-    staff_photo_docketNo = os.getenv("STAFF_DOCKETNO_PHOTO")
-    staff_upload_docketNo = os.getenv("STAFF_DOCKETNO_UPLOAD")
-    staff_signature_docketNo = os.getenv("STAFF_DOCKETNO_SIGNATURE")
-    driver_photo_docketNo = os.getenv("DRIVER_DOCKETNO_PHOTO")
-    driver_upload_docketNo = os.getenv("DRIVER_DOCKETNO_UPLOAD")
-    driver_signature_docketNo = os.getenv("DRIVER_DOCKETNO_SIGNATURE")
-    view_docketNo = os.getenv("VIEW_DOCKET")
-    fail_docketNo = os.getenv("FAIL_DOCKETNO")
-    delay_docketNo = os.getenv("DELAY_DOCKETNO")
-    
     #defining constructor  
     def __init__(self, driver: webdriver.Remote):
+        load_dotenv()
+        self.search_logsheetNo = os.getenv("SEARCH_LOGSHEETNO")
+        self.staff_photo_docketNo = os.getenv("STAFF_DOCKETNO_PHOTO")
+        self.staff_upload_docketNo = os.getenv("STAFF_DOCKETNO_UPLOAD")
+        self.staff_signature_docketNo = os.getenv("STAFF_DOCKETNO_SIGNATURE")
+        self.driver_photo_docketNo = os.getenv("DRIVER_DOCKETNO_PHOTO")
+        self.driver_upload_docketNo = os.getenv("DRIVER_DOCKETNO_UPLOAD")
+        self.driver_signature_docketNo = os.getenv("DRIVER_DOCKETNO_SIGNATURE")
+        self.driver_completed_logsheet = os.getenv("COMPLETED_LOGSHEET")
+        self.view_docketNo = os.getenv("VIEW_DOCKET")
+        self.fail_docketNo = os.getenv("FAIL_DOCKETNO")
+        self.delay_docketNo = os.getenv("DELAY_DOCKETNO")
         self.driver = driver
         self.component = IODComponents(self.driver)
-
+        
     #Search logsheet
-    def staff_logsheet_search(self):
-        self.nav_search()
-        self.option_buttonStaff()
-        self.insert_logsheet(self.logsheetNo)
-        time.sleep(3)
-    
+    def staff_docket_estDateTime(self):
+        errSearch = self.nav_search()
+        if errSearch is None:
+            
+            errOption = self.option_button()
+            if errOption is None:
+                
+                errInsert = self.insert_logsheet()
+                if errInsert is not None:
+                    
+                    self.driver.back()
+                    return errInsert
+
+                #Go back to homepage
+                self.driver.back()
+                StaffHomePage.load_staffHome(self)
+                time.sleep(2)
+                
+            else: 
+                self.driver.back()
+                return errOption
+            
+        else: 
+            return errSearch
+        
     #POD camera photo [staff]
     def staff_pod_photoDocket(self):
-        self.nav_search()
-        self.option_buttonStaff()
-        self.insert_docket(self.staff_photo_docketNo)
-        self.component.pod_photo()
-        StaffHomePage.load_staffHome(self)
-        time.sleep(3)
+        errSearch = self.nav_search()
+        if errSearch is None:
+            
+            errOption = self.option_button()
+            if errOption is None:
+                
+                errInsert = self.insert_docket(self.staff_photo_docketNo)
+                if errInsert is None:
+                    
+                    errPod = self.component.pod_photo()
+                    if errPod is None:
+                        
+                        #Go back to homepage
+                        StaffHomePage.load_staffHome(self)
+                        time.sleep(2)
+                        
+                    else:
+                        self.driver.back()
+                        return errPod
+                        
+                else:
+                    self.driver.back()
+                    return errInsert
+
+            else: 
+                self.driver.back()
+                return errOption
+            
+        else: 
+            return errSearch 
     
     #POD upload photo [staff]
     def staff_pod_uploadDocket(self):
-        self.nav_search()  
-        self.option_buttonStaff()
-        self.insert_docket(self.staff_upload_docketNo)
-        self.component.pod_upload()
-        StaffHomePage.load_staffHome(self)
-        time.sleep(3)
+        errSearch = self.nav_search()
+        if errSearch is None:
+            
+            errOption = self.option_button()
+            if errOption is None:
+                
+                errInsert = self.insert_docket(self.staff_upload_docketNo)
+                if errInsert is None:
+                    
+                    errPod = self.component.pod_upload()
+                    if errPod is None:
+                        
+                        #Go back to homepage
+                        StaffHomePage.load_staffHome(self)
+                        time.sleep(2)
+                        
+                    else:
+                        self.driver.back()
+                        return errPod
+                        
+                else:
+                    self.driver.back()
+                    return errInsert
+
+            else: 
+                self.driver.back()
+                return errOption
+            
+        else: 
+            return errSearch
     
     #POD signature [staff]
     def staff_pod_signatureDocket(self):
-        self.nav_search()        
-        self.option_buttonStaff()
-        self.insert_docket(self.staff_signature_docketNo)
-        self.component.pod_signature()
-        StaffHomePage.load_staffHome(self)
-        time.sleep(3)
-    
+        errSearch = self.nav_search()
+        if errSearch is None:
+            
+            errOption = self.option_button()
+            if errOption is None:
+                
+                errInsert = self.insert_docket(self.staff_signature_docketNo)
+                if errInsert is None:
+                    
+                    errPod = self.component.pod_signature()
+                    if errPod is None:
+                        
+                        #Go back to homepage
+                        StaffHomePage.load_staffHome(self)
+                        time.sleep(2)
+                        
+                    else:
+                        self.driver.back()
+                        return errPod
+                        
+                else:
+                    self.driver.back()
+                    return errInsert
+
+            else: 
+                self.driver.back()
+                return errOption
+            
+        else: 
+            return errSearch
+        
+    #Additional details [staff] 
+    def staff_additional(self):
+        errSearch = self.nav_search()
+        if errSearch is None:
+            
+            errOption = self.option_button()
+            if errOption is None:
+                
+                errInsert = self.insert_docket(self.view_docketNo)
+                if errInsert is None:
+                    
+                    errSign = self.component.nav_viewSignature()
+                    if errSign is not None: print(errSign)
+                    
+                    errPre = self.component.nav_docketPreview()
+                    if errPre is None:
+                        #Go back to homepage
+                        self.driver.back()
+                        StaffHomePage.load_staffHome(self)
+                        time.sleep(2)
+                    
+                    else:   
+                        self.driver.back()  
+                        return(errPre)
+                        
+                else:
+                    self.driver.back()
+                    return errInsert
+
+            else: 
+                self.driver.back()
+                return errOption
+            
+        else: 
+            return errSearch
+        
     #Fail docket [staff]
     def staff_fail_docket(self):
-        self.nav_search()
-        self.option_buttonStaff()
-        self.insert_docket(self.fail_docketNo)
-        self.component.nav_fail()
-        StaffHomePage.load_staffHome(self)
-        time.sleep(3)
+        errSearch = self.nav_search()
+        if errSearch is None:
+            
+            errOption = self.option_button()
+            if errOption is None:
+                
+                errInsert = self.insert_docket(self.fail_docketNo)
+                if errInsert is None:
+                    
+                    errFail = self.component.nav_fail()
+                    if errFail is None:
+                        
+                        #Go back to homepage
+                        StaffHomePage.load_staffHome(self)
+                        time.sleep(2)
+                        
+                    else:
+                        self.driver.back()
+                        return errFail
+                        
+                else:
+                    self.driver.back()
+                    return errInsert
+
+            else: 
+                self.driver.back()
+                return errOption
+            
+        else: 
+            return errSearch
     
     #Delay docket [staff] 
-    def staff_delay_docket(self):   
-        self.nav_search()
-        self.option_buttonStaff()
-        self.insert_docket(self.delay_docketNo)
-        self.component.nav_delay()
-        StaffHomePage.load_staffHome(self)
-        time.sleep(3)
-    
-    #Additional details [staff] 
-    def staff_additional(self):   
-        self.nav_search()
-        self.option_buttonStaff()
-        # self.search_page.check_search_history()
-        self.insert_docket(self.view_docketNo)
-        self.component.nav_viewSignature()
-        self.component.nav_docketPreview()
-        time.sleep(3)
+    def staff_delay_docket(self):
+        errSearch = self.nav_search()
+        if errSearch is None:
+            
+            errOption = self.option_button()
+            if errOption is None:
+                
+                errInsert = self.insert_docket(self.delay_docketNo)
+                if errInsert is None:
+                    
+                    errDelay = self.component.nav_delay()
+                    if errDelay is None:
+                        
+                        #Go back to homepage
+                        StaffHomePage.load_staffHome(self)
+                        time.sleep(2)
+                        
+                    else:
+                        self.driver.back()
+                        return errDelay
+                        
+                else:
+                    self.driver.back()
+                    return errInsert
+
+            else: 
+                self.driver.back()
+                return errOption
+            
+        else: 
+            return errSearch
         
     #POD camera photo [Driver]
-    def driver_pod_photoDocket(self):
-        self.component.nav_sideBar()
-        self.nav_history()
-        self.option_buttonDriver()
-        self.insert_docket(self.driver_photo_docketNo)
-        self.component.pod_photo()
-        DriverHomePage.load_driverHome(self)
-        time.sleep(3)
+    def driver_pod_photoDocket(self) -> str:
+        errSide = self.component.nav_sideBar()
+        if errSide is None:
+            
+            errHistory = self.nav_history()
+            if errHistory is None:
+                
+                errOption = self.option_button()
+                if errOption is None:
+                    
+                    errInsert = self.insert_docket(self.driver_photo_docketNo)
+                    if errInsert is None:
+                        
+                        errPod = self.component.pod_photo()
+                        if errPod is None:
+                            
+                            #Go back to homepage
+                            DriverHomePage.load_driverHome(self)
+                            time.sleep(2)
+                            
+                        else:
+                            self.driver.back()
+                            return errPod
+                            
+                    else:
+                        self.driver.back()
+                        return errInsert
+
+                else: 
+                    self.driver.back()
+                    return errOption
+                
+            else:
+                self.driver.back()
+                return errHistory
+            
+        else: 
+            return errSide
     
     #POD upload photo [driver]
-    def driver_pod_uploadDocket(self):
-        self.component.nav_sideBar()
-        self.nav_history()  
-        self.option_buttonDriver()
-        self.insert_docket(self.driver_upload_docketNo)
-        self.component.pod_upload()
-        DriverHomePage.load_driverHome(self)
-        time.sleep(3)
+    def driver_pod_uploadDocket(self) -> str:
+        errSide = self.component.nav_sideBar()
+        if errSide is None:
+            
+            errHistory = self.nav_history()
+            if errHistory is None:
+                
+                errOption = self.option_button()
+                if errOption is None:
+                    
+                    errInsert = self.insert_docket(self.driver_upload_docketNo)
+                    if errInsert is None:
+                        
+                        errPod = self.component.pod_upload()
+                        if errPod is None:
+                            
+                            #Go back to homepage
+                            DriverHomePage.load_driverHome(self)
+                            time.sleep(2)
+                            
+                        else:
+                            self.driver.back()
+                            return errPod
+                            
+                    else:
+                        self.driver.back()
+                        return errInsert
+
+                else: 
+                    self.driver.back()
+                    return errOption
+                
+            else:
+                self.driver.back()
+                return errHistory
+            
+        else: 
+            return errSide
     
     #POD signature [driver]
     def driver_pod_signatureDocket(self):
-        self.component.nav_sideBar()
-        self.nav_history()        
-        self.option_buttonDriver()
-        self.insert_docket(self.driver_signature_docketNo)
-        self.component.pod_signature()
-        DriverHomePage.load_driverHome(self)
-        time.sleep(3)
+        errSide = self.component.nav_sideBar()
+        if errSide is None:
+            
+            errHistory = self.nav_history()
+            if errHistory is None:
+                
+                errOption = self.option_button()
+                if errOption is None:
+                    
+                    errInsert = self.insert_docket(self.driver_signature_docketNo)
+                    if errInsert is None:
+                        
+                        errPod = self.component.pod_signature()
+                        if errPod is None:
+                            
+                            #Go back to homepage
+                            DriverHomePage.load_driverHome(self)
+                            time.sleep(2)
+                            
+                        else:
+                            self.driver.back()
+                            return errPod
+                            
+                    else:
+                        self.driver.back()
+                        return errInsert
+
+                else: 
+                    self.driver.back()
+                    return errOption
+                
+            else:
+                self.driver.back()
+                return errHistory
+            
+        else: 
+            return errSide
+    
+    #View completed jobs [driver] 
+    def driver_completed(self) -> str:
+        errSearch = self.nav_search()
+        if errSearch is None:
+            
+            errOption = self.option_button()
+            if errOption is None:
+                
+                errInsert = self.insert_docket(self.driver_completed_logsheet)
+                if errInsert is None:
+                    
+                    dockets = self.component.get_dockets()
+                    if len(dockets) > 0: 
+                        try:
+                            
+                            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, dockets[0]))).click()
+                            time.sleep(2)
+                            
+                            errPre = self.component.nav_docketPreview()
+                            if errPre is None: 
+                                
+                                #Go back to homepage
+                                for _ in range(3):
+                                    self.driver.back()
+                                    
+                                DriverHomePage.load_driverHome(self)
+                                time.sleep(2)
+                                
+                            else:   
+                                for _ in range(3):
+                                    self.driver.back()
+                                    
+                                return(errPre)
+
+                        except TimeoutException:
+                            for _ in range(2):
+                                    self.driver.back()
+                                    
+                            return("TimeoutException: Unable to locate selected docket")
+                    
+                    else: 
+                        self.driver.back()
+                        return("Error: Empty logsheet")
+                            
+                else:
+                    self.driver.back()
+                    return errInsert
+
+            else: 
+                self.driver.back()
+                return errOption
+            
+        else: 
+            return errSearch
     
     #Fail docket [driver]
     def driver_fail_docket(self):
-        self.component.nav_sideBar()
-        self.nav_history()
-        self.option_buttonDriver()
-        self.insert_docket(self.fail_docketNo)
-        self.component.nav_fail()
-        DriverHomePage.load_driverHome(self)
-        time.sleep(3)
+        errSide = self.component.nav_sideBar()
+        if errSide is None:
+            
+            errHistory = self.nav_history()
+            if errHistory is None:
+                
+                errOption = self.option_button()
+                if errOption is None:
+                    
+                    errInsert = self.insert_docket(self.fail_docketNo)
+                    if errInsert is None:
+                        
+                        errFail = self.component.nav_fail()
+                        if errFail is None:
+                            
+                            #Go back to homepage
+                            DriverHomePage.load_driverHome(self)
+                            time.sleep(2)
+                            
+                        else:
+                            self.driver.back()
+                            return errFail
+                            
+                    else:
+                        self.driver.back()
+                        return errInsert
+
+                else: 
+                    self.driver.back()
+                    return errOption
+                
+            else:
+                self.driver.back()
+                return errHistory
+            
+        else: 
+            return errSide
     
     #Delay docket [driver] 
-    def driver_delay_docket(self):   
-        self.component.nav_sideBar()
-        self.nav_history()
-        self.option_buttonDriver()
-        self.insert_docket(self.delay_docketNo)
-        self.component.nav_delay()
-        DriverHomePage.load_driverHome(self)
-        time.sleep(3)
-    
-    #Additional details [driver] 
-    def driver_additional(self):   
-        self.component.nav_sideBar()
-        self.nav_history()
-        self.option_buttonDriver()
-        # self.search_page.check_search_history()
-        self.insert_docket(self.view_docketNo)
-        self.component.nav_viewSignature()
-        self.component.nav_docketPreview()
-        time.sleep(3)
+    def driver_delay_docket(self):
+        errSide = self.component.nav_sideBar()
+        if errSide is None:
+            
+            errHistory = self.nav_history()
+            if errHistory is None:
+                
+                errOption = self.option_button()
+                if errOption is None:
+                    
+                    errInsert = self.insert_docket(self.delay_docketNo)
+                    if errInsert is None:
+                        
+                        errDelay = self.component.nav_delay()
+                        if errDelay is None:
+                            
+                            #Go back to homepage
+                            DriverHomePage.load_driverHome(self)
+                            time.sleep(2)
+                            
+                        else:
+                            self.driver.back()
+                            return errDelay
+                            
+                    else:
+                        self.driver.back()
+                        return errInsert
+
+                else: 
+                    self.driver.back()
+                    return errOption
+                
+            else:
+                self.driver.back()
+                return errHistory
+            
+        else: 
+            return errSide
     
     #Navigate to search page at Staff 
-    def nav_search(self):
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Search').click()
+    def nav_search(self) -> str:
+        try:
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Search'))).click()
+        
+        except TimeoutException:
+            return("TimeoutException: Unable to locate element [Search button]")
     
     #Navigate to history at Driver
-    def nav_history(self):
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'History').click()
+    def nav_history(self) -> str:
+        try:
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'History'))).click()
         
-    def option_buttonDriver(self):
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Scan/Insert Docket Number').click()
+        except TimeoutException:
+            return("TimeoutException: Unable to locate element [History button]")
+    
+    #option button   
+    def option_button(self) -> str:
+        try:
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Search logsheet/docket'))).click()
         
-    def option_buttonStaff(self):
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Search logsheet/docket').click()
+        except TimeoutException:
+            return("TimeoutException: Unable to locate element [Options button]")
 
     def scan_logsheet(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Scan Logsheet Barcode').click()
         self.driver.back()
         
-    def insert_logsheet(self, logsheetNo):
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Insert Logsheet Number').click()
-        self.driver.find_element(AppiumBy.XPATH, '//android.widget.EditText').send_keys(logsheetNo)
-        self.driver.hide_keyboard()
-        
-        if logsheetNo != '':
+    def insert_logsheet(self) -> str:
+        try:
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Insert Logsheet Number'))).click()
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.EditText'))).send_keys(self.search_logsheetNo)
+            self.driver.hide_keyboard()
             self.component.submitButton()
-                        
-            #Wait & get the elements displayed
-            self.component.get_dockets()
-
-            # Do est date time
-            self.component.nav_estDateTime()
+                            
+            dockets = self.component.get_new_dockets()
+            if len(dockets) > 0:
+                errEst = self.component.nav_estDateTime(docket=dockets[0])
+                if errEst is not None: return errEst
+                    
+            else:
+                self.driver.back()
+                return('Error: No new docket in the logsheet')
             
-        else:
-            raise ValueError('\nNo logsheet number provided')
-        
-        #Go back to homepage
-        for _ in range(2):
+        except TimeoutException:
             self.driver.back()
+            return("TimeoutException: Unable to locate element [Insert logsheet number button]")
     
     #NOTE: KIV for now since we dont have upload barcode feaure  
     def scan_docket(self):
@@ -197,15 +564,16 @@ class SearchHistoryPage:
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Scan Docket Barcode').click()
         self.driver.back()
 
-    def insert_docket(self, docketNo):
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Insert Docket Number').click()
-        self.driver.find_element(AppiumBy.XPATH, '//android.widget.EditText').send_keys(docketNo)
-        self.driver.hide_keyboard()
-        
-        if docketNo != "":
+    def insert_docket(self, docketNo) -> str:
+        try:
+            WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, 'Insert Docket Number'))).click()
+            WebDriverWait(self.driver,10).until(EC.presence_of_element_located((AppiumBy.XPATH, '//android.widget.EditText'))).send_keys(docketNo)
+            self.driver.hide_keyboard()
             self.component.submitButton()
-        else:
-            raise ValueError('\nNo docket number provided')    
+            
+        except TimeoutException:
+            self.driver.back()
+            return("TimeoutException: Unable to locate some element [Insert docket number button]") 
 
     #TODO: Fix search history not detecting the "content-desc" attr
     def check_search_history(self):
